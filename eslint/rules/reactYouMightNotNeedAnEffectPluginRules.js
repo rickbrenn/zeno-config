@@ -1,0 +1,21 @@
+const getReactYouMightNotNeedAnEffectPluginRules = () => {
+	return {
+		// https://github.com/NickvanDyke/eslint-plugin-react-you-might-not-need-an-effect
+		'react-you-might-not-need-an-effect/no-empty-effect': 'warn',
+		'react-you-might-not-need-an-effect/no-adjust-state-on-prop-change':
+			'warn',
+		'react-you-might-not-need-an-effect/no-reset-all-state-on-prop-change':
+			'warn',
+		'react-you-might-not-need-an-effect/no-event-handler': 'warn',
+		'react-you-might-not-need-an-effect/no-pass-live-state-to-parent':
+			'warn',
+		'react-you-might-not-need-an-effect/no-pass-data-to-parent': 'warn',
+		'react-you-might-not-need-an-effect/no-manage-parent': 'warn',
+		'react-you-might-not-need-an-effect/no-pass-ref-to-parent': 'warn',
+		'react-you-might-not-need-an-effect/no-initialize-state': 'warn',
+		'react-you-might-not-need-an-effect/no-chain-state-updates': 'warn',
+		'react-you-might-not-need-an-effect/no-derived-state': 'warn',
+	};
+};
+
+export default getReactYouMightNotNeedAnEffectPluginRules;
