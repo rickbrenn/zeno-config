@@ -70,6 +70,7 @@ const baseConfig = (options = {}) => {
 				...getBaseRules(),
 				...getImportPluginRules({
 					ignoreExports: options.ignoreExports,
+					extensionsPattern: options.extensionsPattern,
 				}),
 				...getStylisticPluginRules(),
 				...getUnicornPluginRules(),
@@ -221,6 +222,7 @@ const defineZenoConfig = (arg1, arg2) => {
 		nodeIgnoreDirs: [],
 		ignoreExports: [],
 		reactDirs: [],
+		extensionsPattern: {},
 		// ts: false,
 	};
 	let config;
@@ -236,6 +238,7 @@ const defineZenoConfig = (arg1, arg2) => {
 		...configs.base({
 			ignoreExports: options.ignoreExports,
 			webpackConfig: options.webpackConfig,
+			extensionsPattern: options.extensionsPattern,
 		}),
 		...configs.node({ ignoreDirs: options.nodeIgnoreDirs }),
 		...(options.react

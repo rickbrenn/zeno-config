@@ -1,5 +1,7 @@
 import { allExtensionsString, nodeExtensionsString } from '../extensions.js';
 
+const extensionsDefault = {};
+
 const getImportPluginRules = (options = {}) => {
 	return {
 		// https://github.com/un-ts/eslint-plugin-import-x/blob/master/docs/rules/export.md
@@ -127,9 +129,12 @@ const getImportPluginRules = (options = {}) => {
 		// https://github.com/un-ts/eslint-plugin-import-x/blob/master/docs/rules/exports-last.md
 		'import-x/exports-last': 'error',
 
-		// TODO: should be set per project
 		// https://github.com/un-ts/eslint-plugin-import-x/blob/master/docs/rules/extensions.md
-		'import-x/extensions': 'off',
+		'import-x/extensions': [
+			'error',
+			'ignorePackages',
+			{ ...extensionsDefault, ...options.extensionsPattern },
+		],
 
 		// https://github.com/un-ts/eslint-plugin-import-x/blob/master/docs/rules/first.md
 		'import-x/first': 'error',
