@@ -56,9 +56,9 @@ const baseConfig = (options = {}) => {
 			settings: {
 				'import-x/resolver': {
 					node: { extensions: allExtensions },
-					webpack: {
-						config: options.webpackConfig || undefined,
-					},
+					...(options.webpackConfig
+						? { webpack: { config: options.webpackConfig } }
+						: {}),
 				},
 			},
 			plugins: {
@@ -82,30 +82,39 @@ const baseConfig = (options = {}) => {
 	];
 };
 
-const nodeConfig = (options = {}) => [
-	{
-		name: 'zeno/node',
-		files: [`**/*{${nodeExtensionsString}}`],
-		ignores: [...ignoreDirs, ...(options.ignoreDirs || [])],
-		languageOptions: {
-			ecmaVersion: 'latest',
-			sourceType: 'module',
-			globals: {
-				...globals.node,
+const nodeConfig = (options = {}) => {
+	let ignores = [...ignoreDirs];
+	if (options.ignoreDirs && options.ignoreDirs.length > 0) {
+		const optionsIgnoreDirs = options.ignoreDirs.map((dir) => {
+			return `${dir}/**/*{${nodeExtensionsString}}`;
+		});
+		ignores = [...ignores, ...optionsIgnoreDirs];
+	}
+	return [
+		{
+			name: 'zeno/node',
+			files: [`**/*{${nodeExtensionsString}}`],
+			ignores,
+			languageOptions: {
+				ecmaVersion: 'latest',
+				sourceType: 'module',
+				globals: {
+					...globals.node,
+				},
 			},
+			plugins: {
+				n: nodePlugin,
+			},
+			rules: { ...getNodePluginRules() },
 		},
-		plugins: {
-			n: nodePlugin,
-		},
-		rules: { ...getNodePluginRules() },
-	},
-];
+	];
+};
 
 const reactConfig = (options = {}) => {
 	let files = [`**/*{${reactExtensionsString}}`];
 	let extensions = reactExtensions;
 
-	if (options.useJsForReact && options.reactDirs.length > 0) {
+	if (options.reactDirs.length > 0) {
 		files = options.reactDirs.map((dir) => {
 			return `${dir}/**/*{${reactExtensionsExtendedString}}`;
 		});
@@ -212,7 +221,6 @@ const defineZenoConfig = (arg1, arg2) => {
 		nodeIgnoreDirs: [],
 		ignoreExports: [],
 		reactDirs: [],
-		useJsForReact: false,
 		// ts: false,
 	};
 	let config;
@@ -232,7 +240,6 @@ const defineZenoConfig = (arg1, arg2) => {
 		...configs.node({ ignoreDirs: options.nodeIgnoreDirs }),
 		...(options.react
 			? configs.react({
-					useJsForReact: options.useJsForReact,
 					reactDirs: options.reactDirs,
 				})
 			: []),
