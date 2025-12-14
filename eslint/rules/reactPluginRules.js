@@ -1,6 +1,6 @@
 import { reactExtensions } from '../extensions.js';
 
-const getReactPluginRules = () => {
+const getReactPluginRules = (options = {}) => {
 	return {
 		// https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/boolean-prop-naming.md
 		'react/boolean-prop-naming': [
@@ -134,7 +134,7 @@ const getReactPluginRules = () => {
 		'react/jsx-filename-extension': [
 			'error',
 			{
-				extensions: reactExtensions,
+				extensions: options.extensions || reactExtensions,
 			},
 		],
 

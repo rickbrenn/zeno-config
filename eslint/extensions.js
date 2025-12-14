@@ -19,7 +19,11 @@ const nodeExtensions = ['.js', '.mjs', '.cjs', '.ts', '.cts', '.mts'];
 
 const nodeExtensionsString = nodeExtensions.join(',');
 
-const reactExtensions = [
+const reactExtensions = ['.jsx', '.mjsx', '.cjsx', '.tsx', '.mtsx', '.ctsx'];
+
+const reactExtensionsString = reactExtensions.join(',');
+
+const reactExtensionsExtended = [
 	'.js',
 	'.mjs',
 	'.cjs',
@@ -31,7 +35,7 @@ const reactExtensions = [
 	'.ctsx',
 ];
 
-const reactExtensionsString = reactExtensions.join(',');
+const reactExtensionsExtendedString = reactExtensionsExtended.join(',');
 
 const typescriptExtensions = ['.ts', '.cts', '.mts', '.tsx', '.mtsx', '.ctsx'];
 
@@ -44,6 +48,8 @@ export {
 	nodeExtensionsString,
 	reactExtensions,
 	reactExtensionsString,
+	reactExtensionsExtended,
+	reactExtensionsExtendedString,
 	typescriptExtensions,
 	typescriptExtensionsString,
 };

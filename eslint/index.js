@@ -25,8 +25,10 @@ import {
 	allExtensions,
 	allExtensionsString,
 	nodeExtensionsString,
-	// reactExtensions,
+	reactExtensions,
 	reactExtensionsString,
+	reactExtensionsExtended,
+	reactExtensionsExtendedString,
 	// typescriptExtensions,
 	// typescriptExtensionsString,
 } from './extensions.js';
@@ -38,41 +40,47 @@ const ignoreDirs = [
 	'**/coverage/*',
 ];
 
-const baseConfig = (options = {}) => [
-	{
-		name: 'zeno/base',
-		files: [`**/*{${allExtensionsString}}`],
-		ignores: [...ignoreDirs],
-		languageOptions: {
-			ecmaVersion: 'latest',
-			sourceType: 'module',
-			globals: {
-				...globals.node,
+const baseConfig = (options = {}) => {
+	return [
+		{
+			name: 'zeno/base',
+			files: [`**/*{${allExtensionsString}}`],
+			ignores: [...ignoreDirs],
+			languageOptions: {
+				ecmaVersion: 'latest',
+				sourceType: 'module',
+				globals: {
+					...globals.node,
+				},
 			},
+			settings: {
+				'import-x/resolver': {
+					node: { extensions: allExtensions },
+					webpack: {
+						config: options.webpackConfig || undefined,
+					},
+				},
+			},
+			plugins: {
+				'import-x': importX,
+				'@stylistic': stylisticPlugin,
+				unicorn: unicornPlugin,
+			},
+			rules: {
+				...getBaseRules(),
+				...getImportPluginRules({
+					ignoreExports: options.ignoreExports,
+				}),
+				...getStylisticPluginRules(),
+				...getUnicornPluginRules(),
+			},
+			extends: [
+				// if a new rule is added it'll use the recommended setting until it's added to rules files
+				js.configs.recommended,
+			],
 		},
-		settings: {
-			'import-x/extensions': allExtensions,
-			// 'import-x/resolver': {
-			// 	node: true,
-			// },
-		},
-		plugins: {
-			'import-x': importX,
-			'@stylistic': stylisticPlugin,
-			unicorn: unicornPlugin,
-		},
-		rules: {
-			...getBaseRules(),
-			...getImportPluginRules({ ignoreExports: options.ignoreExports }),
-			...getStylisticPluginRules(),
-			...getUnicornPluginRules(),
-		},
-		extends: [
-			// if a new rule is added it'll use the recommended setting until it's added to rules files
-			js.configs.recommended,
-		],
-	},
-];
+	];
+};
 
 const nodeConfig = (options = {}) => [
 	{
@@ -93,42 +101,54 @@ const nodeConfig = (options = {}) => [
 	},
 ];
 
-const reactConfig = () => [
-	{
-		name: 'zeno/react',
-		files: [`**/*{${reactExtensionsString}}`],
-		ignores: [...ignoreDirs],
-		languageOptions: {
-			globals: {
-				...globals.browser,
-			},
-			parserOptions: {
-				ecmaFeatures: {
-					jsx: true,
+const reactConfig = (options = {}) => {
+	let files = [`**/*{${reactExtensionsString}}`];
+	let extensions = reactExtensions;
+
+	if (options.useJsForReact && options.reactDirs.length > 0) {
+		files = options.reactDirs.map((dir) => {
+			return `${dir}/**/*{${reactExtensionsExtendedString}}`;
+		});
+		extensions = reactExtensionsExtended;
+	}
+
+	return [
+		{
+			name: 'zeno/react',
+			files,
+			ignores: [...ignoreDirs],
+			languageOptions: {
+				globals: {
+					...globals.browser,
+				},
+				parserOptions: {
+					ecmaFeatures: {
+						jsx: true,
+					},
 				},
 			},
-		},
-		settings: {
-			react: {
-				version: 'detect',
+			settings: {
+				react: {
+					version: 'detect',
+				},
 			},
+			rules: {
+				...getReactPluginRules({ extensions }),
+				...getReactHooksPluginRules(),
+				...getReactYouMightNotNeedAnEffectPluginRules(),
+				...getJsxA11yPluginRules(),
+			},
+			extends: [
+				// if a new rule is added it'll use the recommended setting until it's added to the rules files
+				reactPlugin.configs.flat.recommended,
+				reactPlugin.configs.flat['jsx-runtime'],
+				reactHooksPlugin.configs.flat.recommended,
+				reactYouMightNotNeedAnEffectPlugin.configs.recommended,
+				jsxA11yPlugin.flatConfigs.recommended,
+			],
 		},
-		rules: {
-			...getReactPluginRules(),
-			...getReactHooksPluginRules(),
-			...getReactYouMightNotNeedAnEffectPluginRules(),
-			...getJsxA11yPluginRules(),
-		},
-		extends: [
-			// if a new rule is added it'll use the recommended setting until it's added to the rules files
-			reactPlugin.configs.flat.recommended,
-			reactPlugin.configs.flat['jsx-runtime'],
-			reactHooksPlugin.configs.flat.recommended,
-			reactYouMightNotNeedAnEffectPlugin.configs.recommended,
-			jsxA11yPlugin.flatConfigs.recommended,
-		],
-	},
-];
+	];
+};
 
 // const typescriptConfig = [
 // 	{
@@ -143,6 +163,29 @@ const configs = {
 	react: reactConfig,
 	node: nodeConfig,
 	// ts: typescriptConfig,
+};
+
+const internals = {
+	configs,
+	extensions: {
+		allExtensions,
+		allExtensionsString,
+		nodeExtensionsString,
+		reactExtensions,
+		reactExtensionsString,
+		reactExtensionsExtended,
+		reactExtensionsExtendedString,
+	},
+	rules: {
+		getBaseRules,
+		getImportPluginRules,
+		getStylisticPluginRules,
+		getUnicornPluginRules,
+		getReactPluginRules,
+		getReactHooksPluginRules,
+		getReactYouMightNotNeedAnEffectPluginRules,
+		getJsxA11yPluginRules,
+	},
 };
 
 // TODO
@@ -167,6 +210,9 @@ const defineZenoConfig = (arg1, arg2) => {
 		react: false,
 		// if a project uses .js file extension for both react and node files this will help separate the rules for each
 		nodeIgnoreDirs: [],
+		ignoreExports: [],
+		reactDirs: [],
+		useJsForReact: false,
 		// ts: false,
 	};
 	let config;
@@ -179,9 +225,17 @@ const defineZenoConfig = (arg1, arg2) => {
 	}
 
 	return defineConfig([
-		...configs.base({ ignoreExports: options.ignoreExports }),
+		...configs.base({
+			ignoreExports: options.ignoreExports,
+			webpackConfig: options.webpackConfig,
+		}),
 		...configs.node({ ignoreDirs: options.nodeIgnoreDirs }),
-		...(options.react ? configs.react() : []),
+		...(options.react
+			? configs.react({
+					useJsForReact: options.useJsForReact,
+					reactDirs: options.reactDirs,
+				})
+			: []),
 		// ...(options.ts ? configs.ts : []),
 
 		...(config || []),
@@ -191,5 +245,5 @@ const defineZenoConfig = (arg1, arg2) => {
 	]);
 };
 
-export default configs;
+export default internals;
 export { defineZenoConfig };
