@@ -67,7 +67,6 @@ const getBaseRules = () => {
 		// https://eslint.org/docs/latest/rules/no-duplicate-case
 		'no-duplicate-case': 'error',
 
-		// TODO: used by import plugin, maybe enable if import plugin is optional
 		// https://eslint.org/docs/latest/rules/no-duplicate-imports
 		'no-duplicate-imports': 'off',
 
@@ -489,10 +488,9 @@ const getBaseRules = () => {
 		// https://eslint.org/docs/latest/rules/no-octal-escape
 		'no-octal-escape': 'error',
 
-		// TODO: test this one, might not be needed with ESM
 		// https://eslint.org/docs/latest/rules/no-param-reassign
 		'no-param-reassign': [
-			'error',
+			'off', // not needed with ESM
 			{
 				props: true,
 				ignorePropertyModificationsFor: [
@@ -716,23 +714,12 @@ const getBaseRules = () => {
 		// https://eslint.org/docs/latest/rules/require-yield
 		'require-yield': 'error',
 
-		// TODO: might be replaced by import plugin
 		// https://eslint.org/docs/latest/rules/sort-imports
-		'sort-imports': [
-			'off',
-			{
-				ignoreCase: true,
-				ignoreDeclarationSort: false,
-				ignoreMemberSort: false,
-				memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
-				allowSeparatedGroups: true,
-			},
-		],
+		'sort-imports': 'off', // handled by import/order
 
-		// TODO: test this one
 		// https://eslint.org/docs/latest/rules/sort-keys
 		'sort-keys': [
-			'off',
+			'off', // maybe enable this in the future
 			'asc',
 			{
 				caseSensitive: false,

@@ -198,21 +198,6 @@ const internals = {
 	},
 };
 
-// TODO
-/* 
-export default [
-  stylistic.configs.customize({
-    // the following options are the default values
-    indent: 2,
-    quotes: 'single',
-    semi: false,
-    jsx: true,
-    // ...
-  }),
-  // ...your other config items
-]
-*/
-
 // TODO: make sure to add a suggestion to set the engines fields in package.json
 
 const defineZenoConfig = (arg1, arg2) => {

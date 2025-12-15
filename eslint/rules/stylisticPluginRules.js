@@ -141,11 +141,12 @@ const getStylisticPluginRules = () => {
 		// https://eslint.style/rules/lines-around-comment
 		'@stylistic/lines-around-comment': 'off',
 
-		// TODO: test
 		// https://eslint.style/rules/lines-between-class-members
 		'@stylistic/lines-between-class-members': [
 			'error',
-			'always',
+			{
+				enforce: [{ blankLine: 'always', prev: 'method', next: '*' }],
+			},
 			{ exceptAfterSingleLine: false },
 		],
 

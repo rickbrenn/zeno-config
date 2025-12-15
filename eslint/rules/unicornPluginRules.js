@@ -42,9 +42,16 @@ const getUnicornPluginRules = () => {
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/explicit-length-check.md
 		'unicorn/explicit-length-check': 'off',
 
-		// TODO: turn on? maybe turn on separately for react and non-react files?
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/filename-case.md
-		'unicorn/filename-case': 'off',
+		'unicorn/filename-case': [
+			'error',
+			{
+				cases: {
+					camelCase: true,
+					pascalCase: true,
+				},
+			},
+		],
 
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/import-style.md
 		'unicorn/import-style': 'off',
@@ -146,9 +153,8 @@ const getUnicornPluginRules = () => {
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/no-null.md
 		'unicorn/no-null': 'off',
 
-		// TODO: consider turning this on
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/no-object-as-default-parameter.md
-		'unicorn/no-object-as-default-parameter': 'off',
+		'unicorn/no-object-as-default-parameter': 'error',
 
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/no-process-exit.md
 		'unicorn/no-process-exit': 'off',
@@ -189,9 +195,8 @@ const getUnicornPluginRules = () => {
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/no-unreadable-iife.md
 		'unicorn/no-unreadable-iife': 'error',
 
-		// TODO: test this
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/no-unused-properties.md
-		'unicorn/no-unused-properties': 'off',
+		'unicorn/no-unused-properties': 'warn',
 
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/no-useless-collection-argument.md
 		'unicorn/no-useless-collection-argument': 'error',
@@ -317,9 +322,8 @@ const getUnicornPluginRules = () => {
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/prefer-modern-math-apis.md
 		'unicorn/prefer-modern-math-apis': 'error',
 
-		// TODO: enable for esm option or check package.json for type?
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/prefer-module.md
-		'unicorn/prefer-module': 'off',
+		'unicorn/prefer-module': 'error',
 
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/prefer-native-coercion-functions.md
 		'unicorn/prefer-native-coercion-functions': 'error',
@@ -390,7 +394,6 @@ const getUnicornPluginRules = () => {
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/prefer-ternary.md
 		'unicorn/prefer-ternary': 'error',
 
-		// TODO: what happens with cjs?
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/prefer-top-level-await.md
 		'unicorn/prefer-top-level-await': 'error',
 

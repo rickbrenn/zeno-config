@@ -95,7 +95,6 @@ const getReactPluginRules = (options = {}) => {
 		// https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-boolean-value.md
 		'react/jsx-boolean-value': ['error', 'never'],
 
-		// TODO: test this one. Might interact weird with prettier and also does it only work on html or for components too
 		// https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-child-element-spacing.md
 		'react/jsx-child-element-spacing': 'error',
 
@@ -156,7 +155,6 @@ const getReactPluginRules = (options = {}) => {
 			},
 		],
 
-		// TODO: does this conflict with prettier?
 		// https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-indent.md
 		'react/jsx-indent': [
 			'error',
@@ -219,7 +217,6 @@ const getReactPluginRules = (options = {}) => {
 			{ validStrategies: ['ternary', 'coerce'] },
 		],
 
-		// TODO: maybe test this one
 		// https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-no-literals.md
 		'react/jsx-no-literals': 'off',
 
@@ -252,9 +249,8 @@ const getReactPluginRules = (options = {}) => {
 			},
 		],
 
-		// TODO: not needed with no-multi-spaces and maybe prettier
 		// https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-props-no-multi-spaces.md
-		'react/jsx-props-no-multi-spaces': 'error',
+		'react/jsx-props-no-multi-spaces': 'off', // conflicts with prettier
 
 		// https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-props-no-spread-multi.md
 		'react/jsx-props-no-spread-multi': 'error',
@@ -447,14 +443,12 @@ const getReactPluginRules = (options = {}) => {
 		// https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/sort-comp.md
 		'react/sort-comp': 'error',
 
-		// TODO: test this one
 		// https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/sort-default-props.md
-		'react/sort-default-props': 'error',
+		'react/sort-default-props': 'off',
 
-		// TODO: test this one
 		// https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/sort-prop-types.md
 		'react/sort-prop-types': [
-			'error',
+			'off',
 			{
 				callbacksLast: false,
 				ignoreCase: false,

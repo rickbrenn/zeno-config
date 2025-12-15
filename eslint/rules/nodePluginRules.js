@@ -12,9 +12,8 @@ const getNodePluginRules = () => {
 			},
 		],
 
-		// TODO: test this one
 		// https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/file-extension-in-import.md
-		'n/file-extension-in-import': 'off',
+		'n/file-extension-in-import': 'off', // handled by import/extensions
 
 		// https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/global-require.md
 		'n/global-require': 'error',
@@ -28,7 +27,6 @@ const getNodePluginRules = () => {
 		// https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/no-callback-literal.md
 		'n/no-callback-literal': 'off',
 
-		// TODO: test version field in package.json
 		// https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/no-deprecated-api.md
 		'n/no-deprecated-api': 'error',
 
