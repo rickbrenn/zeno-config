@@ -1,5 +1,5 @@
-import { defineZenoConfig } from './eslint/index.js';
+import { defineZenoConfig } from './src/eslint/index.js';
 
 export default defineZenoConfig({
-	ignoreExports: ['./eslint/index.js', './prettier.js'],
+	ignoreExports: ['./src/eslint/index.js', './src/prettier.js'],
 });

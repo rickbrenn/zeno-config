@@ -11,12 +11,12 @@
 		"inspect": "pnpm dlx eslint --inspect-config"
 	},
 	"exports": {
-		"./eslint": "./eslint/index.js",
-		"./prettier": "./prettier.js"
+		"./eslint": "./src/eslint/index.js",
+		"./prettier": "./src/prettier.js",
+		"./tsconfig-react": "./src/tsconfig.react.json"
 	},
 	"files": [
-		"eslint/**",
-		"prettier.js"
+		"src/**"
 	],
 	"peerDependencies": {
 		"@eslint/js": "^9.39.2",

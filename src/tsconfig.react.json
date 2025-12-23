@@ -1,0 +1,35 @@
+{
+	"compilerOptions": {
+		/* Language and Environment */
+		"target": "ES2022", // output code
+		"lib": ["ES2022", "DOM", "DOM.Iterable"], // input code - browser and es support
+		"jsx": "react-jsx", // React 17+ jsx transform (automatic runtime / no React import)
+
+		/* Modules */
+		"module": "ESNext", // needed since webpack/babel is handling compilation
+		"moduleResolution": "bundler", // needed since webpack/babel is handling compilation
+		"resolveJsonModule": true,
+
+		/* Emit */
+		"noEmit": true, // babel and webpack will handle the compilation
+		"incremental": true, // cache type checking results
+
+		/* Interop Constraints */
+		"esModuleInterop": true, // not needed but matches type checking with babel's allowed behavior
+		"allowSyntheticDefaultImports": true, // not needed but matches type checking with babel's allowed behavior
+		"isolatedModules": true, // needed for babel
+
+		/* Type Checking */
+		"strict": true, // includes several rules it enables
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitReturns": true,
+		"skipLibCheck": true, // skip dependency type checking (standard to set as true)
+		"noUncheckedIndexedAccess": true,
+
+		/* Advanced */
+		"allowJs": true, // allow migrating from js to ts
+		"checkJs": true // check js files for type errors
+	}
+}
