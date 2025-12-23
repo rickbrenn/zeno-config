@@ -21,14 +21,10 @@
 
 		/* Type Checking */
 		"strict": true, // includes several rules it enables
-		"noUnusedLocals": true,
-		"noUnusedParameters": true,
+		"noUnusedLocals": false, // using @typescript-eslint/no-unused-vars instead
+		"noUnusedParameters": false, // using @typescript-eslint/no-unused-vars instead
 		"noFallthroughCasesInSwitch": true,
 		"skipLibCheck": true, // skip dependency type checking (standard to set as true)
 		"noUncheckedIndexedAccess": true,
-
-		/* Advanced */
-		"allowJs": true, // allow migrating from js to ts
-		"checkJs": true // check js files for type errors
 	}
 }

@@ -49,7 +49,7 @@ const getImportPluginRules = (options = {}) => {
 				unusedExports: true,
 				ignoreUnusedTypeExports: false,
 				ignoreExports: [
-					'**/eslint.config.js',
+					`**/eslint.config{${nodeExtensionsString}}`,
 					...(options.ignoreExports || []),
 				],
 			},
@@ -133,7 +133,7 @@ const getImportPluginRules = (options = {}) => {
 		'import-x/extensions': [
 			'error',
 			'ignorePackages',
-			{ ...extensionsDefault, ...options.extensionsPattern },
+			{ ...extensionsDefault, ...options.extensionsIgnorePattern },
 		],
 
 		// https://github.com/un-ts/eslint-plugin-import-x/blob/master/docs/rules/first.md

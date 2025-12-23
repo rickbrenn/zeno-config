@@ -75,7 +75,7 @@ const baseConfig = (options = {}) => {
 				...getBaseRules(),
 				...getImportPluginRules({
 					ignoreExports: options.ignoreExports,
-					extensionsPattern: options.extensionsPattern,
+					extensionsIgnorePattern: options.extensionsIgnorePattern,
 				}),
 				...getStylisticPluginRules(),
 				...getUnicornPluginRules(),
@@ -152,6 +152,18 @@ const reactConfig = (options = {}) => {
 				...getReactHooksPluginRules(),
 				...getReactYouMightNotNeedAnEffectPluginRules(),
 				...getJsxA11yPluginRules(),
+
+				'import-x/extensions': [
+					'error',
+					'ignorePackages',
+					{
+						js: 'never',
+						jsx: 'never',
+						ts: 'never',
+						tsx: 'never',
+						...options.extensionsIgnorePattern,
+					},
+				],
 			},
 			extends: [
 				// if a new rule is added it'll use the recommended setting until it's added to the rules files
@@ -179,7 +191,12 @@ const typescriptConfig = () => {
 			plugins: {
 				'@typescript-eslint': typescriptEslint.plugin,
 			},
-			rules: { ...getTypescriptPluginRules() },
+			rules: {
+				...getTypescriptPluginRules(),
+
+				// other rules the ts compiler handles
+				'react/prop-types': 'off',
+			},
 		},
 	];
 };
@@ -226,32 +243,44 @@ const internals = {
 const defineZenoConfig = (arg1, arg2) => {
 	let options = {
 		react: false,
-		// if a project uses .js file extension for both react and node files this will help separate the rules for each
-		nodeIgnoreDirs: [],
-		ignoreExports: [],
-		reactDirs: [],
-		extensionsPattern: {},
 		ts: true,
+
+		// if a project uses .js file extension for both react and node files this will help separate the rules for each
+		reactDirs: [],
+		nodeIgnoreDirs: [],
+
+		ignoreExports: [],
+		extensionsIgnorePattern: {},
 	};
 	let config;
 
 	if (Array.isArray(arg1)) {
 		config = arg1;
 	} else {
-		options = arg1 || options;
+		options = arg1 ? { ...options, ...arg1 } : options;
 		config = arg2 || [];
+	}
+
+	// use the reactDirs as the nodeIgnoreDirs if they are not set since they would likely be the same
+	if (
+		options.react &&
+		options.reactDirs.length > 0 &&
+		options.nodeIgnoreDirs === 0
+	) {
+		options.nodeIgnoreDirs = [...options.reactDirs];
 	}
 
 	return defineConfig([
 		...configs.getBase({
 			ignoreExports: options.ignoreExports,
 			webpackConfig: options.webpackConfig,
-			extensionsPattern: options.extensionsPattern,
+			extensionsIgnorePattern: options.extensionsIgnorePattern,
 		}),
 		...configs.getNode({ ignoreDirs: options.nodeIgnoreDirs }),
 		...(options.react
 			? configs.getReact({
 					reactDirs: options.reactDirs,
+					extensionsIgnorePattern: options.extensionsIgnorePattern,
 				})
 			: []),
 		...(options.ts ? configs.getTypescript() : []),

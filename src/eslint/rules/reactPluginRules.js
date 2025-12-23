@@ -7,10 +7,10 @@ const getReactPluginRules = (options = {}) => {
 			'error',
 			{
 				propTypeNames: ['bool', 'mutuallyExclusiveTrueProps'],
-				rule: '^(is|has)[A-Z]([A-Za-z0-9]?)+',
+				rule: '^(is|has|show|can)[A-Z]([A-Za-z0-9]?)+',
 				validateNested: true,
 				message:
-					'Boolean prop ({{ propName }}) should start with "is" or "has"',
+					'Boolean prop ({{ propName }}) should start with "is", "has", "show", or "can"',
 			},
 		],
 
