@@ -24,7 +24,6 @@
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"noFallthroughCasesInSwitch": true,
-		"noImplicitReturns": true,
 		"skipLibCheck": true, // skip dependency type checking (standard to set as true)
 		"noUncheckedIndexedAccess": true,
 

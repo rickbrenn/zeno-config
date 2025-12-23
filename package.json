@@ -31,7 +31,9 @@
 		"eslint-plugin-react-hooks": "^7.0.1",
 		"eslint-plugin-react-you-might-not-need-an-effect": "^0.7.0",
 		"eslint-plugin-unicorn": "^62.0.0",
-		"prettier": "^3.7.4"
+		"prettier": "^3.7.4",
+		"typescript": "^5.9.3",
+		"typescript-eslint": "^8.50.1"
 	},
 	"peerDependenciesMeta": {
 		"eslint-plugin-jsx-a11y": {
@@ -44,6 +46,12 @@
 			"optional": true
 		},
 		"eslint-plugin-react-you-might-not-need-an-effect": {
+			"optional": true
+		},
+		"typescript": {
+			"optional": true
+		},
+		"typescript-eslint": {
 			"optional": true
 		}
 	},
@@ -60,7 +68,9 @@
 		"eslint-plugin-react-hooks": "7.0.1",
 		"eslint-plugin-react-you-might-not-need-an-effect": "0.7.0",
 		"eslint-plugin-unicorn": "62.0.0",
-		"prettier": "3.7.4"
+		"prettier": "3.7.4",
+		"typescript": "5.9.3",
+		"typescript-eslint": "8.50.1"
 	},
 	"dependencies": {
 		"globals": "16.5.0"

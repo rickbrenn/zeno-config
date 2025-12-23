@@ -10,6 +10,7 @@ import nodePlugin from 'eslint-plugin-n';
 import reactYouMightNotNeedAnEffectPlugin from 'eslint-plugin-react-you-might-not-need-an-effect';
 import jsxA11yPlugin from 'eslint-plugin-jsx-a11y';
 import unicornPlugin from 'eslint-plugin-unicorn';
+import typescriptEslint from 'typescript-eslint';
 import getBaseRules from './rules/baseRules.js';
 import getImportPluginRules from './rules/importPluginRules.js';
 import getReactPluginRules from './rules/reactPluginRules.js';
@@ -19,6 +20,7 @@ import getNodePluginRules from './rules/nodePluginRules.js';
 import getReactYouMightNotNeedAnEffectPluginRules from './rules/reactYouMightNotNeedAnEffectPluginRules.js';
 import getJsxA11yPluginRules from './rules/jsxA11yPluginRules.js';
 import getUnicornPluginRules from './rules/unicornPluginRules.js';
+import getTypescriptPluginRules from './rules/typescriptPluginRules.js';
 
 // import typescriptPluginRules from './rules/typescriptPluginRules';
 import {
@@ -30,7 +32,7 @@ import {
 	reactExtensionsExtended,
 	reactExtensionsExtendedString,
 	// typescriptExtensions,
-	// typescriptExtensionsString,
+	typescriptExtensionsString,
 } from './extensions.js';
 
 const ignoreDirs = [
@@ -160,19 +162,30 @@ const reactConfig = (options = {}) => {
 	];
 };
 
-// const typescriptConfig = [
-// 	{
-// 		name: 'zeno/typescript',
-// 		files: [`**/*{${typescriptExtensionsString}}`],
-// 		rules: { ...typescriptPluginRules },
-// 	},
-// ];
+const typescriptConfig = () => {
+	return [
+		{
+			name: 'zeno/typescript',
+			files: [`**/*{${typescriptExtensionsString}}`],
+			languageOptions: {
+				parser: typescriptEslint.parser,
+				// parserOptions: {
+				//   projectService: true,
+				// },
+			},
+			plugins: {
+				'@typescript-eslint': typescriptEslint.plugin,
+			},
+			rules: { ...getTypescriptPluginRules() },
+		},
+	];
+};
 
 const configs = {
-	base: baseConfig,
-	react: reactConfig,
-	node: nodeConfig,
-	// ts: typescriptConfig,
+	getBase: baseConfig,
+	getReact: reactConfig,
+	getNode: nodeConfig,
+	getTypescript: typescriptConfig,
 };
 
 const internals = {
@@ -208,7 +221,7 @@ const defineZenoConfig = (arg1, arg2) => {
 		ignoreExports: [],
 		reactDirs: [],
 		extensionsPattern: {},
-		// ts: false,
+		ts: true,
 	};
 	let config;
 
@@ -220,18 +233,18 @@ const defineZenoConfig = (arg1, arg2) => {
 	}
 
 	return defineConfig([
-		...configs.base({
+		...configs.getBase({
 			ignoreExports: options.ignoreExports,
 			webpackConfig: options.webpackConfig,
 			extensionsPattern: options.extensionsPattern,
 		}),
-		...configs.node({ ignoreDirs: options.nodeIgnoreDirs }),
+		...configs.getNode({ ignoreDirs: options.nodeIgnoreDirs }),
 		...(options.react
-			? configs.react({
+			? configs.getReact({
 					reactDirs: options.reactDirs,
 				})
 			: []),
-		// ...(options.ts ? configs.ts : []),
+		...(options.ts ? configs.getTypescript() : []),
 
 		...(config || []),
 
