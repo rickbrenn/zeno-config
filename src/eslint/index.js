@@ -21,17 +21,20 @@ import getReactYouMightNotNeedAnEffectPluginRules from './rules/reactYouMightNot
 import getJsxA11yPluginRules from './rules/jsxA11yPluginRules.js';
 import getUnicornPluginRules from './rules/unicornPluginRules.js';
 import getTypescriptPluginRules from './rules/typescriptPluginRules.js';
-
-// import typescriptPluginRules from './rules/typescriptPluginRules';
 import {
 	allExtensions,
 	allExtensionsString,
+	nodeExtensions,
 	nodeExtensionsString,
+	reactJsExtensions,
+	reactJsExtensionsString,
+	reactJsExtensionsExtended,
+	reactJsExtensionsExtendedString,
 	reactExtensions,
 	reactExtensionsString,
 	reactExtensionsExtended,
 	reactExtensionsExtendedString,
-	// typescriptExtensions,
+	typescriptExtensions,
 	typescriptExtensionsString,
 } from './extensions.js';
 
@@ -193,11 +196,18 @@ const internals = {
 	extensions: {
 		allExtensions,
 		allExtensionsString,
+		nodeExtensions,
 		nodeExtensionsString,
+		reactJsExtensions,
+		reactJsExtensionsString,
+		reactJsExtensionsExtended,
+		reactJsExtensionsExtendedString,
 		reactExtensions,
 		reactExtensionsString,
 		reactExtensionsExtended,
 		reactExtensionsExtendedString,
+		typescriptExtensions,
+		typescriptExtensionsString,
 	},
 	rules: {
 		getBaseRules,
