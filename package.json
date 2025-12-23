@@ -13,7 +13,8 @@
 	"exports": {
 		"./eslint": "./src/eslint/index.js",
 		"./prettier": "./src/prettier.js",
-		"./tsconfig-react": "./src/tsconfig.react.json"
+		"./tsconfig-react": "./src/tsconfig.react.json",
+		"./extensions": "./src/extensions.js"
 	},
 	"files": [
 		"src/**"

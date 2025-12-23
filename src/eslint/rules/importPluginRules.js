@@ -1,4 +1,4 @@
-import { allExtensionsString, nodeExtensionsString } from '../extensions.js';
+import { allExtensionsString, nodeExtensionsString } from '../../extensions.js';
 
 const extensionsDefault = {};
 

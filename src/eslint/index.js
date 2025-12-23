@@ -36,7 +36,7 @@ import {
 	reactExtensionsExtendedString,
 	typescriptExtensions,
 	typescriptExtensionsString,
-} from './extensions.js';
+} from '../extensions.js';
 
 const ignoreDirs = [
 	'**/node_modules/*',

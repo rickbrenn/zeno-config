@@ -1,42 +1,34 @@
+// Base extension groups
+const jsExtensions = ['.js', '.mjs', '.cjs'];
+const jsxExtensions = ['.jsx', '.mjsx', '.cjsx'];
+const tsExtensions = ['.ts', '.cts', '.mts'];
+const tsxExtensions = ['.tsx', '.mtsx', '.ctsx'];
+
+// Combined extension arrays
 const allExtensions = [
-	'.js',
-	'.mjs',
-	'.cjs',
-	'.jsx',
-	'.mjsx',
-	'.cjsx',
-	'.ts',
-	'.cts',
-	'.mts',
-	'.tsx',
-	'.mtsx',
-	'.ctsx',
+	...jsExtensions,
+	...jsxExtensions,
+	...tsExtensions,
+	...tsxExtensions,
 ];
+const nodeExtensions = [...jsExtensions, ...tsExtensions];
+const reactJsExtensions = jsxExtensions;
+const reactExtensions = [...jsxExtensions, ...tsxExtensions];
+const reactJsExtensionsExtended = [...jsExtensions, ...jsxExtensions];
+const reactExtensionsExtended = [
+	...jsExtensions,
+	...jsxExtensions,
+	...tsxExtensions,
+];
+const typescriptExtensions = [...tsExtensions, ...tsxExtensions];
 
+// String versions for use in glob patterns
 const allExtensionsString = allExtensions.join(',');
-
-const nodeExtensions = ['.js', '.mjs', '.cjs', '.ts', '.cts', '.mts'];
-
 const nodeExtensionsString = nodeExtensions.join(',');
-
-const reactJsExtensions = ['.jsx', '.mjsx', '.cjsx'];
-
 const reactJsExtensionsString = reactJsExtensions.join(',');
-
-const reactExtensions = [...reactJsExtensions, '.tsx', '.mtsx', '.ctsx'];
-
 const reactExtensionsString = reactExtensions.join(',');
-
-const reactJsExtensionsExtended = ['.js', '.mjs', '.cjs', ...reactJsExtensions];
-
 const reactJsExtensionsExtendedString = reactJsExtensionsExtended.join(',');
-
-const reactExtensionsExtended = ['.js', '.mjs', '.cjs', ...reactExtensions];
-
 const reactExtensionsExtendedString = reactExtensionsExtended.join(',');
-
-const typescriptExtensions = ['.ts', '.cts', '.mts', '.tsx', '.mtsx', '.ctsx'];
-
 const typescriptExtensionsString = typescriptExtensions.join(',');
 
 export {

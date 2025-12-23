@@ -1,4 +1,4 @@
-import { reactExtensions } from '../extensions.js';
+import { reactExtensions } from '../../extensions.js';
 
 const getReactPluginRules = (options = {}) => {
 	return {
