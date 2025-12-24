@@ -45,6 +45,15 @@ const ignoreDirs = [
 	'**/coverage/*',
 ];
 
+/**
+ * Creates the base ESLint configuration.
+ *
+ * @param {Object} [options={}] - Configuration options.
+ * @param {string[]} [options.ignoreExports] - Export patterns to ignore for import rules.
+ * @param {Object} [options.extensionsIgnorePattern] - Extension patterns to ignore for import rules.
+ * @param {string} [options.webpackConfig] - Path to webpack config for import resolver.
+ * @returns {Array} ESLint flat config array.
+ */
 const baseConfig = (options = {}) => {
 	return [
 		{
@@ -88,6 +97,13 @@ const baseConfig = (options = {}) => {
 	];
 };
 
+/**
+ * Creates the Node.js-specific ESLint configuration.
+ *
+ * @param {Object} [options={}] - Configuration options.
+ * @param {string[]} [options.ignoreDirs] - Additional directories to ignore for Node-specific rules.
+ * @returns {Array} ESLint flat config array.
+ */
 const nodeConfig = (options = {}) => {
 	let ignores = [...ignoreDirs];
 	if (options.ignoreDirs && options.ignoreDirs.length > 0) {
@@ -116,11 +132,23 @@ const nodeConfig = (options = {}) => {
 	];
 };
 
+/**
+ * Creates the React-specific ESLint configuration.
+ *
+ * @param {Object} [options={}] - Configuration options.
+ * @param {string[]} [options.reactDirs] - Directories containing React files (for projects using .js for both React and Node).
+ * @param {Object} [options.extensionsIgnorePattern] - Extension patterns to ignore for import rules.
+ * @returns {Array} ESLint flat config array.
+ */
 const reactConfig = (options = {}) => {
 	let files = [`**/*{${reactExtensionsString}}`];
 	let extensions = reactExtensions;
 
-	if (options.reactDirs.length > 0) {
+	if (
+		options.reactDirs &&
+		Array.isArray(options.reactDirs) &&
+		options.reactDirs.length > 0
+	) {
 		files = options.reactDirs.map((dir) => {
 			return `${dir}/**/*{${reactExtensionsExtendedString}}`;
 		});
@@ -177,6 +205,11 @@ const reactConfig = (options = {}) => {
 	];
 };
 
+/**
+ * Creates the TypeScript-specific ESLint configuration.
+ *
+ * @returns {Array} ESLint flat config array.
+ */
 const typescriptConfig = () => {
 	return [
 		{
@@ -240,6 +273,32 @@ const internals = {
 
 // TODO: make sure to add a suggestion to set the engines fields in package.json
 
+/**
+ * Defines a Zeno ESLint configuration.
+ *
+ * @param {Object|Array} arg1 - Options object or additional config array. If an array, treated as additional config.
+ * @param {boolean} [arg1.react=false] - Enable React-specific rules.
+ * @param {boolean} [arg1.ts=true] - Enable TypeScript-specific rules.
+ * @param {string[]} [arg1.reactDirs=[]] - Directories containing React files (for projects using .js for both React and Node).
+ * @param {string[]} [arg1.nodeIgnoreDirs=[]] - Directories to ignore for Node-specific rules.
+ * @param {string[]} [arg1.ignoreExports=[]] - Export patterns to ignore for import rules.
+ * @param {Object} [arg1.extensionsIgnorePattern={}] - Extension patterns to ignore for import rules.
+ * @param {string} [arg1.webpackConfig] - Path to webpack config for import resolver.
+ * @param {Array} [arg2] - Additional ESLint config objects to merge (only used if arg1 is options object).
+ * @returns {Array} ESLint flat config array.
+ *
+ * @example
+ * // With options object
+ * defineZenoConfig({ react: true, ts: true })
+ *
+ * @example
+ * // With additional config
+ * defineZenoConfig({ react: true }, [customConfig])
+ *
+ * @example
+ * // With config array only
+ * defineZenoConfig([customConfig])
+ */
 const defineZenoConfig = (arg1, arg2) => {
 	let options = {
 		react: false,
@@ -261,11 +320,28 @@ const defineZenoConfig = (arg1, arg2) => {
 		config = arg2 || [];
 	}
 
+	// Ensure array options are arrays
+	if (!Array.isArray(options.reactDirs)) {
+		options.reactDirs = [];
+	}
+	if (!Array.isArray(options.nodeIgnoreDirs)) {
+		options.nodeIgnoreDirs = [];
+	}
+	if (!Array.isArray(options.ignoreExports)) {
+		options.ignoreExports = [];
+	}
+	if (
+		typeof options.extensionsIgnorePattern !== 'object' ||
+		options.extensionsIgnorePattern === null
+	) {
+		options.extensionsIgnorePattern = {};
+	}
+
 	// use the reactDirs as the nodeIgnoreDirs if they are not set since they would likely be the same
 	if (
 		options.react &&
 		options.reactDirs.length > 0 &&
-		options.nodeIgnoreDirs === 0
+		options.nodeIgnoreDirs.length === 0
 	) {
 		options.nodeIgnoreDirs = [...options.reactDirs];
 	}
