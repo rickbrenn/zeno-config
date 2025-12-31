@@ -11,10 +11,19 @@
 		"inspect": "pnpm dlx eslint --inspect-config"
 	},
 	"exports": {
-		"./eslint": "./src/eslint/index.js",
-		"./prettier": "./src/prettier.js",
+		"./eslint": {
+			"types": "./src/eslint/index.d.ts",
+			"default": "./src/eslint/index.js"
+		},
+		"./prettier": {
+			"types": "./src/prettier.d.ts",
+			"default": "./src/prettier.js"
+		},
 		"./tsconfig-react": "./src/tsconfig.react.json",
-		"./extensions": "./src/extensions.js"
+		"./extensions": {
+			"types": "./src/extensions.d.ts",
+			"default": "./src/extensions.js"
+		}
 	},
 	"files": [
 		"src/**"
