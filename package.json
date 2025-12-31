@@ -19,6 +19,7 @@
 			"types": "./src/prettier.d.ts",
 			"default": "./src/prettier.js"
 		},
+		"./tsconfig": "./src/tsconfig.base.json",
 		"./tsconfig-react": "./src/tsconfig.react.json",
 		"./extensions": {
 			"types": "./src/extensions.d.ts",

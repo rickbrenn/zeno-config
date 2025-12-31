@@ -1,0 +1,31 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"compilerOptions": {
+		/* Language and Environment */
+		"target": "ES2022", // output code
+		"lib": ["ES2022"], // input code - Node.js ES support
+
+		/* Modules */
+		"module": "NodeNext", // Node.js native ESM
+		"moduleResolution": "NodeNext", // Node.js native ESM resolution
+		"resolveJsonModule": true,
+
+		/* Emit */
+		"outDir": "./dist",
+		"noEmit": true, // using external tools for compilation
+		"incremental": true, // cache type checking results
+
+		/* Interop Constraints */
+		"esModuleInterop": true, // CommonJS/ESM interop
+		"allowSyntheticDefaultImports": true, // allows default imports from modules with no default export
+		"isolatedModules": true, // ensures each file can be independently transpiled
+
+		/* Type Checking */
+		"strict": true, // includes several rules it enables
+		"noUnusedLocals": false, // using @typescript-eslint/no-unused-vars instead
+		"noUnusedParameters": false, // using @typescript-eslint/no-unused-vars instead
+		"noFallthroughCasesInSwitch": true,
+		"skipLibCheck": true, // skip dependency type checking (standard to set as true)
+		"noUncheckedIndexedAccess": true
+	}
+}

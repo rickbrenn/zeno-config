@@ -1,30 +1,13 @@
 {
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"extends": "./tsconfig.base.json",
 	"compilerOptions": {
 		/* Language and Environment */
-		"target": "ES2022", // output code
-		"lib": ["ES2022", "DOM", "DOM.Iterable"], // input code - browser and es support
+		"lib": ["ES2022", "DOM", "DOM.Iterable"], // browser APIs
 		"jsx": "react-jsx", // React 17+ jsx transform (automatic runtime / no React import)
 
 		/* Modules */
 		"module": "ESNext", // needed since webpack/babel is handling compilation
-		"moduleResolution": "bundler", // needed since webpack/babel is handling compilation
-		"resolveJsonModule": true,
-
-		/* Emit */
-		"noEmit": true, // babel and webpack will handle the compilation
-		"incremental": true, // cache type checking results
-
-		/* Interop Constraints */
-		"esModuleInterop": true, // not needed but matches type checking with babel's allowed behavior
-		"allowSyntheticDefaultImports": true, // not needed but matches type checking with babel's allowed behavior
-		"isolatedModules": true, // needed for babel
-
-		/* Type Checking */
-		"strict": true, // includes several rules it enables
-		"noUnusedLocals": false, // using @typescript-eslint/no-unused-vars instead
-		"noUnusedParameters": false, // using @typescript-eslint/no-unused-vars instead
-		"noFallthroughCasesInSwitch": true,
-		"skipLibCheck": true, // skip dependency type checking (standard to set as true)
-		"noUncheckedIndexedAccess": true,
+		"moduleResolution": "bundler" // needed since webpack/babel is handling compilation
 	}
 }
