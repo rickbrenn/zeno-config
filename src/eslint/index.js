@@ -302,7 +302,7 @@ const internals = {
 const defineZenoConfig = (arg1, arg2) => {
 	let options = {
 		react: false,
-		ts: true,
+		ts: false,
 
 		// if a project uses .js file extension for both react and node files this will help separate the rules for each
 		reactDirs: [],
@@ -310,6 +310,7 @@ const defineZenoConfig = (arg1, arg2) => {
 
 		ignoreExports: [],
 		extensionsIgnorePattern: {},
+		webpackConfig: undefined,
 	};
 	let config;
 
