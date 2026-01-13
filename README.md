@@ -50,6 +50,28 @@ export default defineZenoConfig({
 });
 ```
 
+#### Required: Empty `.eslintrc` File
+
+You must create an empty `.eslintrc` file in your project root for the `import-x/no-unused-modules` rule to work correctly with flat config:
+
+```bash
+touch .eslintrc
+```
+
+This is a workaround for a [known limitation](https://github.com/import-js/eslint-plugin-import/issues/3079) where certain internal ESLint APIs are excluded when using flat config. The file can be empty or contain only `ignorePatterns` if you need to ignore specific files.
+
+#### `engines` field in `package.json`
+
+Add an `engines` field to your `package.json` with your supported Node.js versions. Some rules for Node.js use this:
+
+ ```json
+ {
+ 	"engines": {
+ 		"node": ">=20"
+ 	}
+ }
+ ```
+
 #### Advanced Configuration
 
 ```javascript
