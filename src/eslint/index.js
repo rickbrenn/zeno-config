@@ -2,15 +2,10 @@ import { defineConfig } from 'eslint/config';
 import js from '@eslint/js';
 import globals from 'globals';
 import importX from 'eslint-plugin-import-x';
-import reactPlugin from 'eslint-plugin-react';
-import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import prettierPlugin from 'eslint-plugin-prettier/recommended';
 import stylisticPlugin from '@stylistic/eslint-plugin';
 import nodePlugin from 'eslint-plugin-n';
-import reactYouMightNotNeedAnEffectPlugin from 'eslint-plugin-react-you-might-not-need-an-effect';
-import jsxA11yPlugin from 'eslint-plugin-jsx-a11y';
 import unicornPlugin from 'eslint-plugin-unicorn';
-import typescriptEslint from 'typescript-eslint';
 import getBaseRules from './rules/baseRules.js';
 import getImportPluginRules from './rules/importPluginRules.js';
 import getReactPluginRules from './rules/reactPluginRules.js';
@@ -138,9 +133,22 @@ const nodeConfig = (options = {}) => {
  * @param {Object} [options={}] - Configuration options.
  * @param {string[]} [options.reactDirs] - Directories containing React files (for projects using .js for both React and Node).
  * @param {Object} [options.extensionsIgnorePattern] - Extension patterns to ignore for import rules.
- * @returns {Array} ESLint flat config array.
+ * @returns {Promise<Array>} ESLint flat config array.
  */
-const reactConfig = (options = {}) => {
+const reactConfig = async (options = {}) => {
+	// Dynamically import optional React dependencies
+	const [
+		{ default: reactPlugin },
+		{ default: reactHooksPlugin },
+		{ default: jsxA11yPlugin },
+		{ default: reactYouMightNotNeedAnEffectPlugin },
+	] = await Promise.all([
+		import('eslint-plugin-react'),
+		import('eslint-plugin-react-hooks'),
+		import('eslint-plugin-jsx-a11y'),
+		import('eslint-plugin-react-you-might-not-need-an-effect'),
+	]);
+
 	let files = [`**/*{${reactExtensionsString}}`];
 	let extensions = reactExtensions;
 
@@ -208,9 +216,12 @@ const reactConfig = (options = {}) => {
 /**
  * Creates the TypeScript-specific ESLint configuration.
  *
- * @returns {Array} ESLint flat config array.
+ * @returns {Promise<Array>} ESLint flat config array.
  */
-const typescriptConfig = () => {
+const typescriptConfig = async () => {
+	// Dynamically import optional TypeScript dependencies
+	const { default: typescriptEslint } = await import('typescript-eslint');
+
 	return [
 		{
 			name: 'zeno/typescript',
@@ -285,7 +296,7 @@ const internals = {
  * @param {Object} [arg1.extensionsIgnorePattern={}] - Extension patterns to ignore for import rules.
  * @param {string} [arg1.webpackConfig] - Path to webpack config for import resolver.
  * @param {Array} [arg2] - Additional ESLint config objects to merge (only used if arg1 is options object).
- * @returns {Array} ESLint flat config array.
+ * @returns {Promise<Array>} ESLint flat config array.
  *
  * @example
  * // With options object
@@ -299,7 +310,7 @@ const internals = {
  * // With config array only
  * defineZenoConfig([customConfig])
  */
-const defineZenoConfig = (arg1, arg2) => {
+const defineZenoConfig = async (arg1, arg2) => {
 	let options = {
 		react: false,
 		ts: false,
@@ -347,6 +358,17 @@ const defineZenoConfig = (arg1, arg2) => {
 		options.nodeIgnoreDirs = [...options.reactDirs];
 	}
 
+	// Load optional configs in parallel if needed
+	const [reactConfigResult, tsConfigResult] = await Promise.all([
+		options.react
+			? configs.getReact({
+					reactDirs: options.reactDirs,
+					extensionsIgnorePattern: options.extensionsIgnorePattern,
+				})
+			: Promise.resolve([]),
+		options.ts ? configs.getTypescript() : Promise.resolve([]),
+	]);
+
 	return defineConfig([
 		...configs.getBase({
 			ignoreExports: options.ignoreExports,
@@ -354,13 +376,8 @@ const defineZenoConfig = (arg1, arg2) => {
 			extensionsIgnorePattern: options.extensionsIgnorePattern,
 		}),
 		...configs.getNode({ ignoreDirs: options.nodeIgnoreDirs }),
-		...(options.react
-			? configs.getReact({
-					reactDirs: options.reactDirs,
-					extensionsIgnorePattern: options.extensionsIgnorePattern,
-				})
-			: []),
-		...(options.ts ? configs.getTypescript() : []),
+		...reactConfigResult,
+		...tsConfigResult,
 
 		...(config || []),
 

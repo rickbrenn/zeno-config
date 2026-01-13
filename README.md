@@ -44,6 +44,7 @@ Create an `eslint.config.js` file in your project root:
 ```javascript
 import { defineZenoConfig } from 'zeno-config/eslint';
 
+// defineZenoConfig returns a Promise - ESLint 9+ flat config supports this natively
 export default defineZenoConfig({
 	ts: true, // Enable TypeScript support (default: false)
 	react: true, // Enable React support (default: false)
@@ -64,13 +65,13 @@ This is a workaround for a [known limitation](https://github.com/import-js/eslin
 
 Add an `engines` field to your `package.json` with your supported Node.js versions. Some rules for Node.js use this:
 
- ```json
- {
- 	"engines": {
- 		"node": ">=20"
- 	}
- }
- ```
+```json
+{
+	"engines": {
+		"node": ">=20"
+	}
+}
+```
 
 #### Advanced Configuration
 
@@ -213,13 +214,14 @@ import zenoInternals from 'zeno-config/eslint';
 
 const { configs, rules, extensions } = zenoInternals;
 
-export default [
+// Note: getReact() and getTypescript() are async (return Promises)
+export default (async () => [
 	...configs.getBase(),
 	...configs.getNode(),
-	...configs.getReact(),
-	...configs.getTypescript(),
+	...(await configs.getReact()),
+	...(await configs.getTypescript()),
 	// Your custom configs
-];
+])();
 ```
 
 ### Accessing Individual Rules
