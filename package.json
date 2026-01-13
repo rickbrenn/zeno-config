@@ -1,7 +1,7 @@
 {
 	"name": "zeno-config",
 	"version": "0.1.0",
-	"description": "Opinionated and preconfigured ESLint and Prettier setup",
+	"description": "Preconfigured and opinionated ESLint, Prettier, and TypeScript setup",
 	"type": "module",
 	"packageManager": "pnpm@10.25.0",
 	"engines": {
