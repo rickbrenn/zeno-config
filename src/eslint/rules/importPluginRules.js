@@ -23,6 +23,7 @@ const getImportPluginRules = (options = {}) => {
 					`**/*.test{${allExtensionsString}}`, // test files
 					`**/*.stories{${allExtensionsString}}`, // story files
 					`**/.prettierrc{${nodeExtensionsString}}`, // prettier config
+					`**/prettier.config{${nodeExtensionsString}}`, // prettier config
 				],
 				optionalDependencies: false,
 				peerDependencies: true,
@@ -50,6 +51,7 @@ const getImportPluginRules = (options = {}) => {
 				ignoreUnusedTypeExports: false,
 				ignoreExports: [
 					`**/eslint.config{${nodeExtensionsString}}`,
+					`**/prettier.config{${nodeExtensionsString}}`, // prettier config
 					...(options.ignoreExports || []),
 				],
 			},
