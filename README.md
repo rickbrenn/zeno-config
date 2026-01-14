@@ -177,19 +177,25 @@ Use in your build configs, webpack, etc:
 
 ```javascript
 import {
-	allExtensions,
-	nodeExtensions,
-	reactExtensions,
-	typescriptExtensions,
+	// Arrays of extensions
+	allExtensions, // All supported extensions: .js, .mjs, .cjs, .jsx, .mjsx, .cjsx, .ts, .cts, .mts, .tsx, .mtsx, .ctsx
+	nodeExtensions, // Node.js extensions: .js, .mjs, .cjs, .ts, .cts, .mts
+	reactJsExtensions, // JSX-only extensions: .jsx, .mjsx, .cjsx
+	reactJsExtensionsExtended, // JS + JSX extensions: .js, .mjs, .cjs, .jsx, .mjsx, .cjsx
+	reactExtensions, // React extensions (JSX + TSX): .jsx, .mjsx, .cjsx, .tsx, .mtsx, .ctsx
+	reactExtensionsExtended, // JS + JSX + TSX extensions: .js, .mjs, .cjs, .jsx, .mjsx, .cjsx, .tsx, .mtsx, .ctsx
+	typescriptExtensions, // TypeScript extensions: .ts, .cts, .mts, .tsx, .mtsx, .ctsx
+
+	// String versions for glob patterns (comma-separated)
+	allExtensionsString, // ".js,.mjs,.cjs,.jsx,.mjsx,.cjsx,.ts,.cts,.mts,.tsx,.mtsx,.ctsx"
+	nodeExtensionsString, // ".js,.mjs,.cjs,.ts,.cts,.mts"
+	reactJsExtensionsString, // ".jsx,.mjsx,.cjsx"
+	reactJsExtensionsExtendedString, // ".js,.mjs,.cjs,.jsx,.mjsx,.cjsx"
+	reactExtensionsString, // ".jsx,.mjsx,.cjsx,.tsx,.mtsx,.ctsx"
+	reactExtensionsExtendedString, // ".js,.mjs,.cjs,.jsx,.mjsx,.cjsx,.tsx,.mtsx,.ctsx"
+	typescriptExtensionsString, // ".ts,.cts,.mts,.tsx,.mtsx,.ctsx"
 } from 'zeno-config/extensions';
 ```
-
-Covers all of the module and commonjs extensions:
-
-- **JavaScript**: `.js`, `.mjs`, `.cjs`
-- **JSX**: `.jsx`, `.mjsx`, `.cjsx`
-- **TypeScript**: `.ts`, `.cts`, `.mts`
-- **TSX**: `.tsx`, `.mtsx`, `.ctsx`
 
 ### `defineZenoConfig(options, additionalESLintConfig)`
 
