@@ -51,7 +51,6 @@ const getImportPluginRules = (options = {}) => {
 				ignoreUnusedTypeExports: false,
 				ignoreExports: [
 					`**/eslint.config{${nodeExtensionsString}}`,
-					`**/prettier.config{${nodeExtensionsString}}`, // prettier config
 					...(options.ignoreExports || []),
 				],
 			},
