@@ -10,7 +10,6 @@ const getReactYouMightNotNeedAnEffectPluginRules = () => {
 		'react-you-might-not-need-an-effect/no-pass-live-state-to-parent':
 			'warn',
 		'react-you-might-not-need-an-effect/no-pass-data-to-parent': 'warn',
-		'react-you-might-not-need-an-effect/no-manage-parent': 'warn',
 		'react-you-might-not-need-an-effect/no-pass-ref-to-parent': 'warn',
 		'react-you-might-not-need-an-effect/no-initialize-state': 'warn',
 		'react-you-might-not-need-an-effect/no-chain-state-updates': 'warn',
