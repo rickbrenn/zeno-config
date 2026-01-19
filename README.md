@@ -22,16 +22,13 @@ Install the package and its peer dependencies:
 
 ```bash
 # Using pnpm (recommended)
-
-# Base dependencies
-pnpm add -D zeno-config eslint prettier @eslint/js @stylistic/eslint-plugin eslint-config-prettier eslint-plugin-import-x eslint-plugin-n eslint-plugin-prettier eslint-plugin-unicorn
-
-# For React projects, also install:
-pnpm add -D eslint-plugin-react eslint-plugin-react-hooks eslint-plugin-jsx-a11y eslint-plugin-react-you-might-not-need-an-effect
+pnpm add -D zeno-config eslint prettier
 
 # For TypeScript projects, also install:
-pnpm add -D typescript typescript-eslint
+pnpm add -D typescript
 ```
+
+All ESLint plugins are bundled with zeno-config, so you don't need to install them separately.
 
 ## Usage
 
@@ -44,7 +41,6 @@ Create an `eslint.config.js` file in your project root:
 ```javascript
 import { defineZenoConfig } from 'zeno-config/eslint';
 
-// defineZenoConfig returns a Promise - ESLint 9+ flat config supports this natively
 export default defineZenoConfig({
 	ts: true, // Enable TypeScript support (default: false)
 	react: true, // Enable React support (default: false)
@@ -221,14 +217,13 @@ import zenoInternals from 'zeno-config/eslint';
 
 const { configs, rules, extensions } = zenoInternals;
 
-// Note: getReact() and getTypescript() are async (return Promises)
-export default (async () => [
+export default [
 	...configs.getBase(),
 	...configs.getNode(),
-	...(await configs.getReact()),
-	...(await configs.getTypescript()),
+	...configs.getReact(),
+	...configs.getTypescript(),
 	// Your custom configs
-])();
+];
 ```
 
 ### Accessing Individual Rules

@@ -63,9 +63,9 @@ interface Extensions {
 
 interface Configs {
 	getBase: (options?: BaseConfigOptions) => Linter.Config[];
-	getReact: (options?: ReactConfigOptions) => Promise<Linter.Config[]>;
+	getReact: (options?: ReactConfigOptions) => Linter.Config[];
 	getNode: (options?: NodeConfigOptions) => Linter.Config[];
-	getTypescript: () => Promise<Linter.Config[]>;
+	getTypescript: () => Linter.Config[];
 }
 
 interface Rules {
@@ -96,12 +96,9 @@ declare const internals: Internals;
 /**
  * Defines a Zeno ESLint configuration.
  *
- * This function is async because React and TypeScript dependencies are loaded
- * dynamically (only when enabled) to avoid errors when optional deps aren't installed.
- *
  * @param arg1 - Options object or additional config array. If an array, treated as additional config.
  * @param arg2 - Additional ESLint config objects to merge (only used if arg1 is options object).
- * @returns Promise that resolves to ESLint flat config array.
+ * @returns ESLint flat config array.
  *
  * @example
  * // With options object (using default export)
@@ -118,7 +115,7 @@ declare const internals: Internals;
 declare function defineZenoConfig(
 	arg1?: DefineZenoConfigOptions | Linter.Config[],
 	arg2?: Linter.Config[]
-): Promise<Linter.Config[]>;
+): Linter.Config[];
 
 export {
 	type BaseConfigOptions,
