@@ -351,7 +351,7 @@ const getBaseRules = () => {
 		'no-array-constructor': 'error',
 
 		// https://eslint.org/docs/latest/rules/no-bitwise
-		'no-bitwise': 'error',
+		'no-bitwise': ['error', { allow: ['~'] }],
 
 		// https://eslint.org/docs/latest/rules/no-caller
 		'no-caller': 'error',
@@ -651,11 +651,11 @@ const getBaseRules = () => {
 			'error',
 			{
 				VariableDeclarator: {
-					array: true,
+					array: false,
 					object: true,
 				},
 				AssignmentExpression: {
-					array: true,
+					array: false,
 					object: true,
 				},
 			},

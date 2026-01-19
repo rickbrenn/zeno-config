@@ -3,6 +3,8 @@ import { type Linter } from 'eslint';
 interface BaseConfigOptions {
 	/** Export patterns to ignore for import rules */
 	ignoreExports?: string[];
+	/** Additional file patterns to allow dev dependencies in (for no-extraneous-dependencies rule) */
+	additionalDevDependencies?: string[];
 	/** Extension patterns to ignore for import rules */
 	extensionsIgnorePattern?: Record<string, string>;
 	/** Path to webpack config for import resolver */
@@ -26,12 +28,16 @@ interface DefineZenoConfigOptions {
 	react?: boolean;
 	/** Enable TypeScript-specific rules */
 	ts?: boolean;
+	/** Additional directories to ignore (added to defaults: dist, build) */
+	ignoreDirs?: string[];
 	/** Directories containing React files (for projects using .js for both React and Node) */
 	reactDirs?: string[];
-	/** Directories to ignore for Node-specific rules */
+	/** Directories to ignore for Node-specific rules only */
 	nodeIgnoreDirs?: string[];
 	/** Export patterns to ignore for import rules */
 	ignoreExports?: string[];
+	/** Additional file patterns to allow dev dependencies in (for no-extraneous-dependencies rule) */
+	additionalDevDependencies?: string[];
 	/** Extension patterns to ignore for import rules */
 	extensionsIgnorePattern?: Record<string, string>;
 	/** Path to webpack config for import resolver */
@@ -66,6 +72,7 @@ interface Rules {
 	getBaseRules: () => Linter.RulesRecord;
 	getImportPluginRules: (options?: {
 		ignoreExports?: string[];
+		additionalDevDependencies?: string[];
 		extensionsIgnorePattern?: Record<string, string>;
 	}) => Linter.RulesRecord;
 	getStylisticPluginRules: () => Linter.RulesRecord;

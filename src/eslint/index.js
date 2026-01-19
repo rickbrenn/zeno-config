@@ -33,7 +33,7 @@ import {
 	typescriptExtensionsString,
 } from '../extensions.js';
 
-const ignoreDirs = [
+const defaultIgnoreDirs = [
 	'**/node_modules/*',
 	'**/dist/*',
 	'**/build/*',
@@ -45,6 +45,7 @@ const ignoreDirs = [
  *
  * @param {Object} [options={}] - Configuration options.
  * @param {string[]} [options.ignoreExports] - Export patterns to ignore for import rules.
+ * @param {string[]} [options.additionalDevDependencies] - Additional file patterns to allow dev dependencies in (for no-extraneous-dependencies rule).
  * @param {Object} [options.extensionsIgnorePattern] - Extension patterns to ignore for import rules.
  * @param {string} [options.webpackConfig] - Path to webpack config for import resolver.
  * @returns {Array} ESLint flat config array.
@@ -54,7 +55,6 @@ const baseConfig = (options = {}) => {
 		{
 			name: 'zeno/base',
 			files: [`**/*{${allExtensionsString}}`],
-			ignores: [...ignoreDirs],
 			languageOptions: {
 				ecmaVersion: 'latest',
 				sourceType: 'module',
@@ -79,6 +79,8 @@ const baseConfig = (options = {}) => {
 				...getBaseRules(),
 				...getImportPluginRules({
 					ignoreExports: options.ignoreExports,
+					additionalDevDependencies:
+						options.additionalDevDependencies,
 					extensionsIgnorePattern: options.extensionsIgnorePattern,
 				}),
 				...getStylisticPluginRules(),
@@ -100,7 +102,7 @@ const baseConfig = (options = {}) => {
  * @returns {Array} ESLint flat config array.
  */
 const nodeConfig = (options = {}) => {
-	let ignores = [...ignoreDirs];
+	let ignores = [...defaultIgnoreDirs];
 	if (options.ignoreDirs && options.ignoreDirs.length > 0) {
 		const optionsIgnoreDirs = options.ignoreDirs.map((dir) => {
 			return `${dir}/**/*{${nodeExtensionsString}}`;
@@ -167,7 +169,6 @@ const reactConfig = async (options = {}) => {
 		{
 			name: 'zeno/react',
 			files,
-			ignores: [...ignoreDirs],
 			languageOptions: {
 				globals: {
 					...globals.browser,
@@ -290,9 +291,11 @@ const internals = {
  * @param {Object|Array} arg1 - Options object or additional config array. If an array, treated as additional config.
  * @param {boolean} [arg1.react=false] - Enable React-specific rules.
  * @param {boolean} [arg1.ts=true] - Enable TypeScript-specific rules.
+ * @param {string[]} [arg1.ignoreDirs=[]] - Additional directories to ignore (added to defaults: dist, build).
  * @param {string[]} [arg1.reactDirs=[]] - Directories containing React files (for projects using .js for both React and Node).
- * @param {string[]} [arg1.nodeIgnoreDirs=[]] - Directories to ignore for Node-specific rules.
+ * @param {string[]} [arg1.nodeIgnoreDirs=[]] - Directories to ignore for Node-specific rules only.
  * @param {string[]} [arg1.ignoreExports=[]] - Export patterns to ignore for import rules.
+ * @param {string[]} [arg1.additionalDevDependencies=[]] - Additional file patterns to allow dev dependencies in (for no-extraneous-dependencies rule).
  * @param {Object} [arg1.extensionsIgnorePattern={}] - Extension patterns to ignore for import rules.
  * @param {string} [arg1.webpackConfig] - Path to webpack config for import resolver.
  * @param {Array} [arg2] - Additional ESLint config objects to merge (only used if arg1 is options object).
@@ -315,11 +318,15 @@ const defineZenoConfig = async (arg1, arg2) => {
 		react: false,
 		ts: false,
 
+		// additional directories to ignore (added to defaults: dist, build)
+		ignoreDirs: [],
+
 		// if a project uses .js file extension for both react and node files this will help separate the rules for each
 		reactDirs: [],
 		nodeIgnoreDirs: [],
 
 		ignoreExports: [],
+		additionalDevDependencies: [],
 		extensionsIgnorePattern: {},
 		webpackConfig: undefined,
 	};
@@ -333,6 +340,9 @@ const defineZenoConfig = async (arg1, arg2) => {
 	}
 
 	// Ensure array options are arrays
+	if (!Array.isArray(options.ignoreDirs)) {
+		options.ignoreDirs = [];
+	}
 	if (!Array.isArray(options.reactDirs)) {
 		options.reactDirs = [];
 	}
@@ -341,6 +351,9 @@ const defineZenoConfig = async (arg1, arg2) => {
 	}
 	if (!Array.isArray(options.ignoreExports)) {
 		options.ignoreExports = [];
+	}
+	if (!Array.isArray(options.additionalDevDependencies)) {
+		options.additionalDevDependencies = [];
 	}
 	if (
 		typeof options.extensionsIgnorePattern !== 'object' ||
@@ -370,12 +383,16 @@ const defineZenoConfig = async (arg1, arg2) => {
 	]);
 
 	return defineConfig([
+		{ ignores: [...defaultIgnoreDirs, ...options.ignoreDirs] },
 		...configs.getBase({
 			ignoreExports: options.ignoreExports,
+			additionalDevDependencies: options.additionalDevDependencies,
 			webpackConfig: options.webpackConfig,
 			extensionsIgnorePattern: options.extensionsIgnorePattern,
 		}),
-		...configs.getNode({ ignoreDirs: options.nodeIgnoreDirs }),
+		...configs.getNode({
+			ignoreDirs: options.nodeIgnoreDirs,
+		}),
 		...reactConfigResult,
 		...tsConfigResult,
 

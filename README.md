@@ -51,16 +51,6 @@ export default defineZenoConfig({
 });
 ```
 
-#### Required: Empty `.eslintrc` File
-
-You must create an empty `.eslintrc` file in your project root for the `import-x/no-unused-modules` rule to work correctly with flat config:
-
-```bash
-touch .eslintrc
-```
-
-This is a workaround for a [known limitation](https://github.com/import-js/eslint-plugin-import/issues/3079) where certain internal ESLint APIs are excluded when using flat config. The file can be empty or contain only `ignorePatterns` if you need to ignore specific files.
-
 #### `engines` field in `package.json`
 
 Add an `engines` field to your `package.json` with your supported Node.js versions. Some rules for Node.js use this:
@@ -83,6 +73,9 @@ export default defineZenoConfig(
 		react: true,
 		ts: true,
 
+		// Additional directories to ignore (added to defaults: node_modules, dist, build, coverage)
+		ignoreDirs: ['out', '.next'],
+
 		// If using .js extensions for React files, specify React directories
 		reactDirs: ['src/client', 'src/components'],
 
@@ -91,6 +84,12 @@ export default defineZenoConfig(
 
 		// Patterns to ignore for import/no-unresolved rule
 		ignoreExports: ['^@/'],
+
+		// Additional file patterns to allow dev dependencies in (for no-extraneous-dependencies rule)
+		additionalDevDependencies: [
+			'**/scripts/**/*.js',
+			'**/playwright.config.ts',
+		],
 
 		// Extensions to ignore for import/extensions rule
 		extensionsIgnorePattern: {
@@ -199,15 +198,17 @@ import {
 
 ### `defineZenoConfig(options, additionalESLintConfig)`
 
-| Option                    | Type       | Default     | Description                                                                         |
-| ------------------------- | ---------- | ----------- | ----------------------------------------------------------------------------------- |
-| `react`                   | `boolean`  | `false`     | Enable React-specific rules                                                         |
-| `ts`                      | `boolean`  | `false`     | Enable TypeScript-specific rules                                                    |
-| `reactDirs`               | `string[]` | `[]`        | Directories containing React files (for projects using .js for both React and Node) |
-| `nodeIgnoreDirs`          | `string[]` | `[]`        | Directories to ignore for Node-specific rules (defaults to `reactDirs` if not set)  |
-| `ignoreExports`           | `string[]` | `[]`        | Export patterns to ignore for import/no-unresolved rule                             |
-| `extensionsIgnorePattern` | `object`   | `{}`        | Extension patterns to ignore for import/extensions rule                             |
-| `webpackConfig`           | `string`   | `undefined` | Path to webpack config for import resolver                                          |
+| Option                      | Type       | Default     | Description                                                                                   |
+| --------------------------- | ---------- | ----------- | --------------------------------------------------------------------------------------------- |
+| `react`                     | `boolean`  | `false`     | Enable React-specific rules                                                                   |
+| `ts`                        | `boolean`  | `false`     | Enable TypeScript-specific rules                                                              |
+| `ignoreDirs`                | `string[]` | `[]`        | Additional directories to ignore (added to defaults: node_modules, dist, build, coverage)     |
+| `reactDirs`                 | `string[]` | `[]`        | Directories containing React files (for projects using .js for both React and Node)           |
+| `nodeIgnoreDirs`            | `string[]` | `[]`        | Directories to ignore for Node-specific rules (defaults to `reactDirs` if not set)            |
+| `ignoreExports`             | `string[]` | `[]`        | Export patterns to ignore for import/no-unresolved rule                                       |
+| `additionalDevDependencies` | `string[]` | `[]`        | Additional file patterns to allow dev dependencies in (for import/no-extraneous-dependencies) |
+| `extensionsIgnorePattern`   | `object`   | `{}`        | Extension patterns to ignore for import/extensions rule                                       |
+| `webpackConfig`             | `string`   | `undefined` | Path to webpack config for import resolver                                                    |
 
 ## Advanced Usage
 

@@ -117,9 +117,6 @@ const getStylisticPluginRules = () => {
 		// https://eslint.style/rules/jsx-self-closing-comp
 		'@stylistic/jsx-self-closing-comp': 'off', // conflicts with react/self-closing-comp
 
-		// https://eslint.style/rules/jsx-sort-props
-		'@stylistic/jsx-sort-props': 'off', // conflicts with react/jsx-sort-props
-
 		// https://eslint.style/rules/jsx-tag-spacing
 		'@stylistic/jsx-tag-spacing': 'off', // conflicts with prettier
 

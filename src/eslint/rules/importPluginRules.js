@@ -24,6 +24,12 @@ const getImportPluginRules = (options = {}) => {
 					`**/*.stories{${allExtensionsString}}`, // story files
 					`**/.prettierrc{${nodeExtensionsString}}`, // prettier config
 					`**/prettier.config{${nodeExtensionsString}}`, // prettier config
+					`**/.babelrc{${nodeExtensionsString}}`, // babel config
+					`**/babel.config{${nodeExtensionsString}}`, // babel config
+					`**/vite.config{${nodeExtensionsString}}`, // vite config
+					`**/vitest.config{${nodeExtensionsString}}`, // vitest config
+					`**/vitest.workspace{${nodeExtensionsString}}`, // vitest workspace config
+					...(options.additionalDevDependencies || []),
 				],
 				optionalDependencies: false,
 				peerDependencies: true,
@@ -43,18 +49,20 @@ const getImportPluginRules = (options = {}) => {
 		'import-x/no-named-as-default-member': 'off',
 
 		// https://github.com/un-ts/eslint-plugin-import-x/blob/master/docs/rules/no-unused-modules.md
-		'import-x/no-unused-modules': [
-			'warn',
-			{
-				missingExports: false,
-				unusedExports: true,
-				ignoreUnusedTypeExports: false,
-				ignoreExports: [
-					`**/eslint.config{${nodeExtensionsString}}`,
-					...(options.ignoreExports || []),
-				],
-			},
-		],
+		// turning this off until I can iron out all of the false positives
+		'import-x/no-unused-modules': 'off',
+		// 'import-x/no-unused-modules': [
+		// 	'warn',
+		// 	{
+		// 		missingExports: false,
+		// 		unusedExports: true,
+		// 		ignoreUnusedTypeExports: false,
+		// 		ignoreExports: [
+		// 			`**/eslint.config{${nodeExtensionsString}}`,
+		// 			...(options.ignoreExports || []),
+		// 		],
+		// 	},
+		// ],
 
 		// https://github.com/un-ts/eslint-plugin-import-x/blob/master/docs/rules/no-amd.md
 		'import-x/no-amd': 'error',
