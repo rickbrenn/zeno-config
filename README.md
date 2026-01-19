@@ -198,6 +198,7 @@ import {
 | --------------------------- | ---------- | ----------- | --------------------------------------------------------------------------------------------- |
 | `react`                     | `boolean`  | `false`     | Enable React-specific rules                                                                   |
 | `ts`                        | `boolean`  | `false`     | Enable TypeScript-specific rules                                                              |
+| `performanceMode`           | `boolean`  | `false`     | Disables expensive rules for better performance                                               |
 | `ignoreDirs`                | `string[]` | `[]`        | Additional directories to ignore (added to defaults: node_modules, dist, build, coverage)     |
 | `reactDirs`                 | `string[]` | `[]`        | Directories containing React files (for projects using .js for both React and Node)           |
 | `nodeIgnoreDirs`            | `string[]` | `[]`        | Directories to ignore for Node-specific rules (defaults to `reactDirs` if not set)            |

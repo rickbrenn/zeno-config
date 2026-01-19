@@ -93,7 +93,7 @@ const getImportPluginRules = (options = {}) => {
 		'import-x/no-absolute-path': 'error',
 
 		// https://github.com/un-ts/eslint-plugin-import-x/blob/master/docs/rules/no-cycle.md
-		'import-x/no-cycle': 'error',
+		'import-x/no-cycle': options.performanceMode ? 'off' : 'error',
 
 		// https://github.com/un-ts/eslint-plugin-import-x/blob/master/docs/rules/no-dynamic-require.md
 		'import-x/no-dynamic-require': 'error',

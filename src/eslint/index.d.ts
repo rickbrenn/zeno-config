@@ -9,6 +9,8 @@ interface BaseConfigOptions {
 	extensionsIgnorePattern?: Record<string, string>;
 	/** Path to webpack config for import resolver */
 	webpackConfig?: string;
+	/** Disables expensive rules for performance */
+	performanceMode?: boolean;
 }
 
 interface NodeConfigOptions {
@@ -28,6 +30,8 @@ interface DefineZenoConfigOptions {
 	react?: boolean;
 	/** Enable TypeScript-specific rules */
 	ts?: boolean;
+	/** Disables expensive rules for performance */
+	performanceMode?: boolean;
 	/** Additional directories to ignore (added to defaults: dist, build) */
 	ignoreDirs?: string[];
 	/** Directories containing React files (for projects using .js for both React and Node) */

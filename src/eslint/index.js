@@ -53,6 +53,7 @@ const defaultIgnoreDirs = [
  * @param {string[]} [options.additionalDevDependencies] - Additional file patterns to allow dev dependencies in (for no-extraneous-dependencies rule).
  * @param {Object} [options.extensionsIgnorePattern] - Extension patterns to ignore for import rules.
  * @param {string} [options.webpackConfig] - Path to webpack config for import resolver.
+ * @param {boolean} [options.performanceMode=false] - Disables expensive rules for performance.
  * @returns {Array} ESLint flat config array.
  */
 const baseConfig = (options = {}) => {
@@ -87,6 +88,7 @@ const baseConfig = (options = {}) => {
 					additionalDevDependencies:
 						options.additionalDevDependencies,
 					extensionsIgnorePattern: options.extensionsIgnorePattern,
+					performanceMode: options.performanceMode,
 				}),
 				...getStylisticPluginRules(),
 				...getUnicornPluginRules(),
@@ -280,6 +282,7 @@ const internals = {
  * @param {Object|Array} arg1 - Options object or additional config array. If an array, treated as additional config.
  * @param {boolean} [arg1.react=false] - Enable React-specific rules.
  * @param {boolean} [arg1.ts=true] - Enable TypeScript-specific rules.
+ * @param {boolean} [arg1.performanceMode=false] - Disables expensive rules for performance.
  * @param {string[]} [arg1.ignoreDirs=[]] - Additional directories to ignore (added to defaults: dist, build).
  * @param {string[]} [arg1.reactDirs=[]] - Directories containing React files (for projects using .js for both React and Node).
  * @param {string[]} [arg1.nodeIgnoreDirs=[]] - Directories to ignore for Node-specific rules only.
@@ -306,6 +309,7 @@ const defineZenoConfig = (arg1, arg2) => {
 	let options = {
 		react: false,
 		ts: false,
+		performanceMode: false,
 
 		// additional directories to ignore (added to defaults: dist, build)
 		ignoreDirs: [],
@@ -376,6 +380,7 @@ const defineZenoConfig = (arg1, arg2) => {
 			additionalDevDependencies: options.additionalDevDependencies,
 			webpackConfig: options.webpackConfig,
 			extensionsIgnorePattern: options.extensionsIgnorePattern,
+			performanceMode: options.performanceMode,
 		}),
 		...configs.getNode({
 			ignoreDirs: options.nodeIgnoreDirs,
