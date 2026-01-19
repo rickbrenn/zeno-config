@@ -25,6 +25,11 @@ interface ReactConfigOptions {
 	extensionsIgnorePattern?: Record<string, string>;
 }
 
+interface TypescriptConfigOptions {
+	/** Enable React-specific rules */
+	react?: boolean;
+}
+
 interface DefineZenoConfigOptions {
 	/** Enable React-specific rules */
 	react?: boolean;
@@ -69,7 +74,7 @@ interface Configs {
 	getBase: (options?: BaseConfigOptions) => Linter.Config[];
 	getReact: (options?: ReactConfigOptions) => Linter.Config[];
 	getNode: (options?: NodeConfigOptions) => Linter.Config[];
-	getTypescript: () => Linter.Config[];
+	getTypescript: (options?: TypescriptConfigOptions) => Linter.Config[];
 }
 
 interface Rules {
@@ -130,6 +135,7 @@ export {
 	type NodeConfigOptions,
 	type ReactConfigOptions,
 	type Rules,
+	type TypescriptConfigOptions,
 	defineZenoConfig,
 };
 export default internals;

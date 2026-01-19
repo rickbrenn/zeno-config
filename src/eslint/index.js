@@ -210,10 +210,11 @@ const reactConfig = (options = {}) => {
 
 /**
  * Creates the TypeScript-specific ESLint configuration.
- *
+ * @param {Object} [options={}] - Configuration options.
+ * @param {boolean} [options.react=false] - Enable React-specific rules.
  * @returns {Array} ESLint flat config array.
  */
-const typescriptConfig = () => {
+const typescriptConfig = (options = {}) => {
 	return [
 		{
 			name: 'zeno/typescript',
@@ -228,10 +229,36 @@ const typescriptConfig = () => {
 				'@typescript-eslint': typescriptEslint.plugin,
 			},
 			rules: {
-				...getTypescriptPluginRules(),
+				...getTypescriptPluginRules({ react: options.react }),
 
-				// other rules the ts compiler handles
-				'react/prop-types': 'off',
+				// Rules handled by the TypeScript compiler
+				'constructor-super': 'off',
+				'getter-return': 'off',
+				'no-class-assign': 'off',
+				'no-const-assign': 'off',
+				'no-dupe-args': 'off',
+				'no-dupe-keys': 'off',
+				'no-func-assign': 'off',
+				'no-import-assign': 'off',
+				'no-new-native-nonconstructor': 'off',
+				'no-obj-calls': 'off',
+				'no-setter-return': 'off',
+				'no-this-before-super': 'off',
+				'no-undef': 'off',
+				'no-unreachable': 'off',
+				'no-unsafe-negation': 'off',
+				'valid-typeof': 'off',
+
+				'import-x/named': 'off',
+
+				...(options.react
+					? {
+							'react/default-props-match-prop-types': 'off',
+							'react/prop-types': 'off',
+							'react/forbid-foreign-prop-types': 'off',
+							'react/forbid-prop-types': 'off',
+						}
+					: {}),
 			},
 		},
 	];
@@ -273,8 +300,6 @@ const internals = {
 		getJsxA11yPluginRules,
 	},
 };
-
-// TODO: make sure to add a suggestion to set the engines fields in package.json
 
 /**
  * Defines a Zeno ESLint configuration.
@@ -371,7 +396,9 @@ const defineZenoConfig = (arg1, arg2) => {
 				extensionsIgnorePattern: options.extensionsIgnorePattern,
 			})
 		: [];
-	const tsConfigResult = options.ts ? configs.getTypescript() : [];
+	const tsConfigResult = options.ts
+		? configs.getTypescript({ react: options.react })
+		: [];
 
 	return defineConfig([
 		{ ignores: [...defaultIgnoreDirs, ...options.ignoreDirs] },

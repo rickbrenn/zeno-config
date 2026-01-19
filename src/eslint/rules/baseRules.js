@@ -3,14 +3,12 @@ const getBaseRules = () => {
 		// https://eslint.org/docs/latest/rules/array-callback-return
 		'array-callback-return': ['error', { allowImplicit: true }],
 
-		// TODO: test this, may only be needed in JS and disabled in TS
 		// https://eslint.org/docs/latest/rules/constructor-super
 		'constructor-super': 'error',
 
 		// https://eslint.org/docs/latest/rules/for-direction
 		'for-direction': 'error',
 
-		// TODO: test this, may only be needed in JS and disabled in TS
 		// https://eslint.org/docs/latest/rules/getter-return
 		'getter-return': ['error', { allowImplicit: true }],
 
@@ -20,7 +18,6 @@ const getBaseRules = () => {
 		// https://eslint.org/docs/latest/rules/no-await-in-loop
 		'no-await-in-loop': 'warn',
 
-		// TODO: test this, may only be needed in JS and disabled in TS
 		// https://eslint.org/docs/latest/rules/no-class-assign
 		'no-class-assign': 'error',
 
@@ -30,7 +27,6 @@ const getBaseRules = () => {
 		// https://eslint.org/docs/latest/rules/no-cond-assign
 		'no-cond-assign': ['error', 'always'],
 
-		// TODO: test this, may only be needed in JS and disabled in TS
 		// https://eslint.org/docs/latest/rules/no-const-assign
 		'no-const-assign': 'error',
 
@@ -49,18 +45,15 @@ const getBaseRules = () => {
 		// https://eslint.org/docs/latest/rules/no-debugger
 		'no-debugger': 'error',
 
-		// TODO: test this, may only be needed in JS and disabled in TS
 		// https://eslint.org/docs/latest/rules/no-dupe-args
 		'no-dupe-args': 'error',
 
-		// TODO: test this, may only be needed in JS and disabled in TS
 		// https://eslint.org/docs/latest/rules/no-dupe-class-members
 		'no-dupe-class-members': 'error',
 
 		// https://eslint.org/docs/latest/rules/no-dupe-else-if
 		'no-dupe-else-if': 'error',
 
-		// TODO: test this, may only be needed in JS and disabled in TS
 		// https://eslint.org/docs/latest/rules/no-dupe-keys
 		'no-dupe-keys': 'error',
 
@@ -82,12 +75,9 @@ const getBaseRules = () => {
 		// https://eslint.org/docs/latest/rules/no-fallthrough
 		'no-fallthrough': 'error',
 
-		// TODO: test this, may only be needed in JS and disabled in TS
 		// https://eslint.org/docs/latest/rules/no-func-assign
 		'no-func-assign': 'error',
 
-		// may still need this for TS since there is a scenario where you can assign an import to a variable
-		// TODO: test this, may only be needed in JS and disabled in TS
 		// https://eslint.org/docs/latest/rules/no-import-assign
 		'no-import-assign': 'error',
 
@@ -106,11 +96,9 @@ const getBaseRules = () => {
 		// https://eslint.org/docs/latest/rules/no-misleading-character-class
 		'no-misleading-character-class': 'error',
 
-		// TODO: test this, may only be needed in JS and disabled in TS
 		// https://eslint.org/docs/latest/rules/no-new-native-nonconstructor
 		'no-new-native-nonconstructor': 'error',
 
-		// TODO: test this, may only be needed in JS and disabled in TS
 		// https://eslint.org/docs/latest/rules/no-obj-calls
 		'no-obj-calls': 'error',
 
@@ -126,7 +114,6 @@ const getBaseRules = () => {
 		// https://eslint.org/docs/latest/rules/no-self-compare
 		'no-self-compare': 'error',
 
-		// TODO: test this, may only be needed in JS and disabled in TS
 		// https://eslint.org/docs/latest/rules/no-setter-return
 		'no-setter-return': 'error',
 
@@ -136,14 +123,12 @@ const getBaseRules = () => {
 		// https://eslint.org/docs/latest/rules/no-template-curly-in-string
 		'no-template-curly-in-string': 'error',
 
-		// TODO: test this, may only be needed in JS and disabled in TS
 		// https://eslint.org/docs/latest/rules/no-this-before-super
 		'no-this-before-super': 'error',
 
 		// https://eslint.org/docs/latest/rules/no-unassigned-vars
 		'no-unassigned-vars': 'error',
 
-		// TODO: test this, may only be needed in JS and disabled in TS
 		// https://eslint.org/docs/latest/rules/no-undef
 		'no-undef': ['error', { typeof: true }],
 
@@ -153,7 +138,6 @@ const getBaseRules = () => {
 		// https://eslint.org/docs/latest/rules/no-unmodified-loop-condition
 		'no-unmodified-loop-condition': 'error',
 
-		// TODO: test this, may only be needed in JS and disabled in TS (only if allowUnreachableCode: false in config)
 		// https://eslint.org/docs/latest/rules/no-unreachable
 		'no-unreachable': 'error',
 
@@ -163,7 +147,6 @@ const getBaseRules = () => {
 		// https://eslint.org/docs/latest/rules/no-unsafe-finally
 		'no-unsafe-finally': 'error',
 
-		// TODO: test this, may only be needed in JS and disabled in TS
 		// https://eslint.org/docs/latest/rules/no-unsafe-negation
 		'no-unsafe-negation': ['error', { enforceForOrderingRelations: true }],
 

@@ -33,7 +33,6 @@ const getReactPluginRules = (options = {}) => {
 			},
 		],
 
-		// TODO: can be disabled in TS
 		// https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/default-props-match-prop-types.md
 		'react/default-props-match-prop-types': [
 			'error',
@@ -59,11 +58,9 @@ const getReactPluginRules = (options = {}) => {
 		// https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/forbid-elements.md
 		'react/forbid-elements': 'off',
 
-		// TODO: can be disabled in TS
 		// https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/forbid-foreign-prop-types.md
 		'react/forbid-foreign-prop-types': 'error',
 
-		// TODO: can be disabled in TS
 		// https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/forbid-prop-types.md
 		'react/forbid-prop-types': [
 			'error',

@@ -82,7 +82,6 @@ const getImportPluginRules = (options = {}) => {
 		// https://github.com/un-ts/eslint-plugin-import-x/blob/master/docs/rules/default.md
 		'import-x/default': 'error',
 
-		// TODO: test this, may only be needed in JS and disabled in TS
 		// https://github.com/un-ts/eslint-plugin-import-x/blob/master/docs/rules/named.md
 		'import-x/named': 'error',
 

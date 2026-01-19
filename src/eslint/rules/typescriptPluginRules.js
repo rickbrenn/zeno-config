@@ -49,7 +49,6 @@ const getTypescriptPluginRules = () => {
 		// requires type information
 		'@typescript-eslint/consistent-type-exports': 'off',
 
-		// TODO: test this, might conflict with import plugin
 		// https://typescript-eslint.io/rules/consistent-type-imports
 		'@typescript-eslint/consistent-type-imports': 'off',
 
@@ -79,7 +78,6 @@ const getTypescriptPluginRules = () => {
 		// 'max-params': 'off',
 		'@typescript-eslint/max-params': 'off',
 
-		// TODO: test
 		// https://typescript-eslint.io/rules/member-ordering
 		'@typescript-eslint/member-ordering': 'off',
 
