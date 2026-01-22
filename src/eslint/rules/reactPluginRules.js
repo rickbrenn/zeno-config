@@ -4,13 +4,13 @@ const getReactPluginRules = (options = {}) => {
 	return {
 		// https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/boolean-prop-naming.md
 		'react/boolean-prop-naming': [
-			'error',
+			'off',
 			{
 				propTypeNames: ['bool', 'mutuallyExclusiveTrueProps'],
-				rule: '^(is|has|show|can)[A-Z]([A-Za-z0-9]?)+',
+				rule: '^(is|has|show|can|allow|should)[A-Z]([A-Za-z0-9]?)+',
 				validateNested: true,
 				message:
-					'Boolean prop ({{ propName }}) should start with "is", "has", "show", or "can"',
+					'Boolean prop ({{ propName }}) should start with "is", "has", "show", "can", "allow", or "should"',
 			},
 		],
 
@@ -210,7 +210,7 @@ const getReactPluginRules = (options = {}) => {
 
 		// https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-no-leaked-render.md
 		'react/jsx-no-leaked-render': [
-			'error',
+			'warn',
 			{ validStrategies: ['ternary', 'coerce'] },
 		],
 
@@ -438,7 +438,7 @@ const getReactPluginRules = (options = {}) => {
 		'react/self-closing-comp': 'error',
 
 		// https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/sort-comp.md
-		'react/sort-comp': 'error',
+		'react/sort-comp': 'off',
 
 		// https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/sort-default-props.md
 		'react/sort-default-props': 'off',

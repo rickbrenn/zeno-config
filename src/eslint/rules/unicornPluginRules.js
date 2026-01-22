@@ -392,7 +392,7 @@ const getUnicornPluginRules = () => {
 		'unicorn/prefer-switch': 'off',
 
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/prefer-ternary.md
-		'unicorn/prefer-ternary': 'warn',
+		'unicorn/prefer-ternary': 'off',
 
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/prefer-top-level-await.md
 		'unicorn/prefer-top-level-await': 'error',

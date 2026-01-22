@@ -215,7 +215,7 @@ const getBaseRules = () => {
 
 		// https://eslint.org/docs/latest/rules/camelcase
 		camelcase: [
-			'error',
+			'warn',
 			{
 				properties: 'always',
 				ignoreDestructuring: false,
