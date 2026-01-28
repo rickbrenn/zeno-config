@@ -39,6 +39,8 @@ interface DefineZenoConfigOptions {
 	performanceMode?: boolean;
 	/** Additional directories to ignore (added to defaults: dist, build) */
 	ignoreDirs?: string[];
+	/** Alias for ignoreDirs. Values are merged if both are provided. */
+	ignores?: string[];
 	/** Directories containing React files (for projects using .js for both React and Node) */
 	reactDirs?: string[];
 	/** Directories to ignore for Node-specific rules only */

@@ -309,6 +309,7 @@ const internals = {
  * @param {boolean} [arg1.ts=true] - Enable TypeScript-specific rules.
  * @param {boolean} [arg1.performanceMode=false] - Disables expensive rules for performance.
  * @param {string[]} [arg1.ignoreDirs=[]] - Additional directories to ignore (added to defaults: dist, build).
+ * @param {string[]} [arg1.ignores=[]] - Alias for ignoreDirs. Values are merged if both are provided.
  * @param {string[]} [arg1.reactDirs=[]] - Directories containing React files (for projects using .js for both React and Node).
  * @param {string[]} [arg1.nodeIgnoreDirs=[]] - Directories to ignore for Node-specific rules only.
  * @param {string[]} [arg1.ignoreExports=[]] - Export patterns to ignore for import rules.
@@ -338,6 +339,7 @@ const defineZenoConfig = (arg1, arg2) => {
 
 		// additional directories to ignore (added to defaults: dist, build)
 		ignoreDirs: [],
+		ignores: [], // alias for ignoreDirs
 
 		// if a project uses .js file extension for both react and node files this will help separate the rules for each
 		reactDirs: [],
@@ -360,6 +362,15 @@ const defineZenoConfig = (arg1, arg2) => {
 	// Ensure array options are arrays
 	if (!Array.isArray(options.ignoreDirs)) {
 		options.ignoreDirs = [];
+	}
+	if (!Array.isArray(options.ignores)) {
+		options.ignores = [];
+	}
+	// Merge ignores alias into ignoreDirs
+	if (options.ignores.length > 0) {
+		options.ignoreDirs = [
+			...new Set([...options.ignoreDirs, ...options.ignores]),
+		];
 	}
 	if (!Array.isArray(options.reactDirs)) {
 		options.reactDirs = [];

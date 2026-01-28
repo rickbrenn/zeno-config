@@ -200,6 +200,7 @@ import {
 | `ts`                        | `boolean`  | `false`     | Enable TypeScript-specific rules                                                              |
 | `performanceMode`           | `boolean`  | `false`     | Disables expensive rules for better performance                                               |
 | `ignoreDirs`                | `string[]` | `[]`        | Additional directories to ignore (added to defaults: node_modules, dist, build, coverage)     |
+| `ignores`                   | `string[]` | `[]`        | Alias for `ignoreDirs`. Values are merged if both are provided.                               |
 | `reactDirs`                 | `string[]` | `[]`        | Directories containing React files (for projects using .js for both React and Node)           |
 | `nodeIgnoreDirs`            | `string[]` | `[]`        | Directories to ignore for Node-specific rules (defaults to `reactDirs` if not set)            |
 | `ignoreExports`             | `string[]` | `[]`        | Export patterns to ignore for import/no-unresolved rule                                       |
