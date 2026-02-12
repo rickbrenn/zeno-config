@@ -15,7 +15,7 @@ interface BaseConfigOptions {
 
 interface NodeConfigOptions {
 	/** Additional directories to ignore for Node-specific rules */
-	ignoreDirs?: string[];
+	ignores?: string[];
 }
 
 interface ReactConfigOptions {
@@ -38,13 +38,11 @@ interface DefineZenoConfigOptions {
 	/** Disables expensive rules for performance */
 	performanceMode?: boolean;
 	/** Additional directories to ignore (added to defaults: dist, build) */
-	ignoreDirs?: string[];
-	/** Alias for ignoreDirs. Values are merged if both are provided. */
 	ignores?: string[];
 	/** Directories containing React files (for projects using .js for both React and Node) */
 	reactDirs?: string[];
 	/** Directories to ignore for Node-specific rules only */
-	nodeIgnoreDirs?: string[];
+	nodeIgnores?: string[];
 	/** Export patterns to ignore for import rules */
 	ignoreExports?: string[];
 	/** Additional file patterns to allow dev dependencies in (for no-extraneous-dependencies rule) */

@@ -70,13 +70,13 @@ export default defineZenoConfig(
 		ts: true,
 
 		// Additional directories to ignore (added to defaults: node_modules, dist, build, coverage)
-		ignoreDirs: ['out', '.next'],
+		ignores: ['out', '.next'],
 
 		// If using .js extensions for React files, specify React directories
 		reactDirs: ['src/client', 'src/components'],
 
 		// Ignore Node.js rules in specific directories (defaults to reactDirs)
-		nodeIgnoreDirs: ['src/client'],
+		nodeIgnores: ['src/client'],
 
 		// Patterns to ignore for import/no-unresolved rule
 		ignoreExports: ['^@/'],
@@ -199,10 +199,9 @@ import {
 | `react`                     | `boolean`  | `false`     | Enable React-specific rules                                                                   |
 | `ts`                        | `boolean`  | `false`     | Enable TypeScript-specific rules                                                              |
 | `performanceMode`           | `boolean`  | `false`     | Disables expensive rules for better performance                                               |
-| `ignoreDirs`                | `string[]` | `[]`        | Additional directories to ignore (added to defaults: node_modules, dist, build, coverage)     |
-| `ignores`                   | `string[]` | `[]`        | Alias for `ignoreDirs`. Values are merged if both are provided.                               |
+| `ignores`                   | `string[]` | `[]`        | Additional directories to ignore (added to defaults: node_modules, dist, build, coverage)     |
 | `reactDirs`                 | `string[]` | `[]`        | Directories containing React files (for projects using .js for both React and Node)           |
-| `nodeIgnoreDirs`            | `string[]` | `[]`        | Directories to ignore for Node-specific rules (defaults to `reactDirs` if not set)            |
+| `nodeIgnores`               | `string[]` | `[]`        | Directories to ignore for Node-specific rules (defaults to `reactDirs` if not set)            |
 | `ignoreExports`             | `string[]` | `[]`        | Export patterns to ignore for import/no-unresolved rule                                       |
 | `additionalDevDependencies` | `string[]` | `[]`        | Additional file patterns to allow dev dependencies in (for import/no-extraneous-dependencies) |
 | `extensionsIgnorePattern`   | `object`   | `{}`        | Extension patterns to ignore for import/extensions rule                                       |

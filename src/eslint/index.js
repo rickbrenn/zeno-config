@@ -38,7 +38,7 @@ import {
 	typescriptExtensionsString,
 } from '../extensions.js';
 
-const defaultIgnoreDirs = [
+const defaultIgnores = [
 	'**/node_modules/*',
 	'**/dist/*',
 	'**/build/*',
@@ -105,16 +105,16 @@ const baseConfig = (options = {}) => {
  * Creates the Node.js-specific ESLint configuration.
  *
  * @param {Object} [options={}] - Configuration options.
- * @param {string[]} [options.ignoreDirs] - Additional directories to ignore for Node-specific rules.
+ * @param {string[]} [options.ignores] - Additional directories to ignore for Node-specific rules.
  * @returns {Array} ESLint flat config array.
  */
 const nodeConfig = (options = {}) => {
-	let ignores = [...defaultIgnoreDirs];
-	if (options.ignoreDirs && options.ignoreDirs.length > 0) {
-		const optionsIgnoreDirs = options.ignoreDirs.map((dir) => {
+	let ignores = [...defaultIgnores];
+	if (options.ignores && options.ignores.length > 0) {
+		const optionsIgnores = options.ignores.map((dir) => {
 			return `${dir}/**/*{${nodeExtensionsString}}`;
 		});
-		ignores = [...ignores, ...optionsIgnoreDirs];
+		ignores = [...ignores, ...optionsIgnores];
 	}
 	return [
 		{
@@ -308,10 +308,9 @@ const internals = {
  * @param {boolean} [arg1.react=false] - Enable React-specific rules.
  * @param {boolean} [arg1.ts=true] - Enable TypeScript-specific rules.
  * @param {boolean} [arg1.performanceMode=false] - Disables expensive rules for performance.
- * @param {string[]} [arg1.ignoreDirs=[]] - Additional directories to ignore (added to defaults: dist, build).
- * @param {string[]} [arg1.ignores=[]] - Alias for ignoreDirs. Values are merged if both are provided.
+ * @param {string[]} [arg1.ignores=[]] - Additional directories to ignore (added to defaults: dist, build).
  * @param {string[]} [arg1.reactDirs=[]] - Directories containing React files (for projects using .js for both React and Node).
- * @param {string[]} [arg1.nodeIgnoreDirs=[]] - Directories to ignore for Node-specific rules only.
+ * @param {string[]} [arg1.nodeIgnores=[]] - Directories to ignore for Node-specific rules only.
  * @param {string[]} [arg1.ignoreExports=[]] - Export patterns to ignore for import rules.
  * @param {string[]} [arg1.additionalDevDependencies=[]] - Additional file patterns to allow dev dependencies in (for no-extraneous-dependencies rule).
  * @param {Object} [arg1.extensionsIgnorePattern={}] - Extension patterns to ignore for import rules.
@@ -338,12 +337,11 @@ const defineZenoConfig = (arg1, arg2) => {
 		performanceMode: false,
 
 		// additional directories to ignore (added to defaults: dist, build)
-		ignoreDirs: [],
-		ignores: [], // alias for ignoreDirs
+		ignores: [],
 
 		// if a project uses .js file extension for both react and node files this will help separate the rules for each
 		reactDirs: [],
-		nodeIgnoreDirs: [],
+		nodeIgnores: [],
 
 		ignoreExports: [],
 		additionalDevDependencies: [],
@@ -360,23 +358,14 @@ const defineZenoConfig = (arg1, arg2) => {
 	}
 
 	// Ensure array options are arrays
-	if (!Array.isArray(options.ignoreDirs)) {
-		options.ignoreDirs = [];
-	}
 	if (!Array.isArray(options.ignores)) {
 		options.ignores = [];
-	}
-	// Merge ignores alias into ignoreDirs
-	if (options.ignores.length > 0) {
-		options.ignoreDirs = [
-			...new Set([...options.ignoreDirs, ...options.ignores]),
-		];
 	}
 	if (!Array.isArray(options.reactDirs)) {
 		options.reactDirs = [];
 	}
-	if (!Array.isArray(options.nodeIgnoreDirs)) {
-		options.nodeIgnoreDirs = [];
+	if (!Array.isArray(options.nodeIgnores)) {
+		options.nodeIgnores = [];
 	}
 	if (!Array.isArray(options.ignoreExports)) {
 		options.ignoreExports = [];
@@ -391,13 +380,13 @@ const defineZenoConfig = (arg1, arg2) => {
 		options.extensionsIgnorePattern = {};
 	}
 
-	// use the reactDirs as the nodeIgnoreDirs if they are not set since they would likely be the same
+	// use the reactDirs as the nodeIgnores if they are not set since they would likely be the same
 	if (
 		options.react &&
 		options.reactDirs.length > 0 &&
-		options.nodeIgnoreDirs.length === 0
+		options.nodeIgnores.length === 0
 	) {
-		options.nodeIgnoreDirs = [...options.reactDirs];
+		options.nodeIgnores = [...options.reactDirs];
 	}
 
 	// Load optional configs if needed
@@ -412,7 +401,7 @@ const defineZenoConfig = (arg1, arg2) => {
 		: [];
 
 	return defineConfig([
-		{ ignores: [...defaultIgnoreDirs, ...options.ignoreDirs] },
+		{ ignores: [...defaultIgnores, ...options.ignores] },
 		...configs.getBase({
 			ignoreExports: options.ignoreExports,
 			additionalDevDependencies: options.additionalDevDependencies,
@@ -421,7 +410,7 @@ const defineZenoConfig = (arg1, arg2) => {
 			performanceMode: options.performanceMode,
 		}),
 		...configs.getNode({
-			ignoreDirs: options.nodeIgnoreDirs,
+			ignores: options.nodeIgnores,
 		}),
 		...reactConfigResult,
 		...tsConfigResult,
