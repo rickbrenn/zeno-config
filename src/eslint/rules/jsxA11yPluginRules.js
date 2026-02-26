@@ -73,7 +73,7 @@ const getJsxA11yPluginRules = () => {
 		'jsx-a11y/no-aria-hidden-on-focusable': 'off',
 
 		// https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/no-autofocus.md
-		'jsx-a11y/no-autofocus': 'error',
+		'jsx-a11y/no-autofocus': 'off',
 
 		// https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/no-distracting-elements.md
 		'jsx-a11y/no-distracting-elements': 'error',

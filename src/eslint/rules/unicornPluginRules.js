@@ -22,7 +22,7 @@ const getUnicornPluginRules = () => {
 		'unicorn/consistent-existence-index-check': 'off',
 
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/consistent-function-scoping.md
-		'unicorn/consistent-function-scoping': 'error',
+		'unicorn/consistent-function-scoping': 'off',
 
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/custom-error-definition.md
 		'unicorn/custom-error-definition': 'error',
@@ -44,7 +44,7 @@ const getUnicornPluginRules = () => {
 
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/filename-case.md
 		'unicorn/filename-case': [
-			'error',
+			'off',
 			{
 				cases: {
 					camelCase: true,
@@ -91,7 +91,7 @@ const getUnicornPluginRules = () => {
 		'unicorn/no-array-sort': 'warn',
 
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/no-await-expression-member.md
-		'unicorn/no-await-expression-member': 'error',
+		'unicorn/no-await-expression-member': 'off', // auto fix breaks logic
 
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/no-await-in-promise-methods.md
 		'unicorn/no-await-in-promise-methods': 'error',
@@ -160,7 +160,7 @@ const getUnicornPluginRules = () => {
 		'unicorn/no-process-exit': 'off',
 
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/no-single-promise-in-promise-methods.md
-		'unicorn/no-single-promise-in-promise-methods': 'error',
+		'unicorn/no-single-promise-in-promise-methods': 'off', // false positives with new Class as elements in arrays
 
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/no-static-only-class.md
 		'unicorn/no-static-only-class': 'error',
@@ -217,7 +217,7 @@ const getUnicornPluginRules = () => {
 		'unicorn/no-useless-spread': 'error',
 
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/no-useless-switch-case.md
-		'unicorn/no-useless-switch-case': 'error',
+		'unicorn/no-useless-switch-case': 'off',
 
 		// this conflicts with requiring default props in React
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/no-useless-undefined.md

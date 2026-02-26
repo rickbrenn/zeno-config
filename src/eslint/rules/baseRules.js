@@ -16,7 +16,7 @@ const getBaseRules = () => {
 		'no-async-promise-executor': 'error',
 
 		// https://eslint.org/docs/latest/rules/no-await-in-loop
-		'no-await-in-loop': 'warn',
+		'no-await-in-loop': 'off',
 
 		// https://eslint.org/docs/latest/rules/no-class-assign
 		'no-class-assign': 'error',
@@ -196,7 +196,7 @@ const getBaseRules = () => {
 		'no-useless-backreference': 'error',
 
 		// https://eslint.org/docs/latest/rules/require-atomic-updates
-		'require-atomic-updates': ['error', { allowProperties: false }],
+		'require-atomic-updates': ['off', { allowProperties: false }], // noticed a feew weird cases with this one
 
 		// https://eslint.org/docs/latest/rules/use-isnan
 		'use-isnan': 'error',
@@ -215,7 +215,7 @@ const getBaseRules = () => {
 
 		// https://eslint.org/docs/latest/rules/camelcase
 		camelcase: [
-			'warn',
+			'off',
 			{
 				properties: 'always',
 				ignoreDestructuring: false,
@@ -250,7 +250,7 @@ const getBaseRules = () => {
 		'default-case-last': 'error',
 
 		// https://eslint.org/docs/latest/rules/default-param-last
-		'default-param-last': 'error',
+		'default-param-last': 'off',
 
 		// https://eslint.org/docs/latest/rules/dot-notation
 		'dot-notation': ['error', { allowKeywords: true }],
@@ -319,7 +319,7 @@ const getBaseRules = () => {
 
 		// https://eslint.org/docs/latest/rules/new-cap
 		'new-cap': [
-			'error',
+			'off',
 			{
 				newIsCap: true,
 				capIsNew: true,
@@ -401,7 +401,7 @@ const getBaseRules = () => {
 				number: true,
 				string: true,
 				disallowTemplateShorthand: true,
-				allow: ['!!', '~'],
+				allow: ['!!', '~', '+'],
 			},
 		],
 

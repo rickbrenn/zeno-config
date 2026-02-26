@@ -135,7 +135,7 @@ const getImportPluginRules = (options = {}) => {
 		'import-x/dynamic-import-chunkname': 'off',
 
 		// https://github.com/un-ts/eslint-plugin-import-x/blob/master/docs/rules/exports-last.md
-		'import-x/exports-last': 'error',
+		'import-x/exports-last': 'off',
 
 		// https://github.com/un-ts/eslint-plugin-import-x/blob/master/docs/rules/extensions.md
 		'import-x/extensions': [
@@ -148,7 +148,7 @@ const getImportPluginRules = (options = {}) => {
 		'import-x/first': 'error',
 
 		// https://github.com/un-ts/eslint-plugin-import-x/blob/master/docs/rules/group-exports.md
-		'import-x/group-exports': 'error',
+		'import-x/group-exports': 'off',
 
 		// https://github.com/un-ts/eslint-plugin-import-x/blob/master/docs/rules/max-dependencies.md
 		'import-x/max-dependencies': 'off',

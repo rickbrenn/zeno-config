@@ -59,11 +59,11 @@ const getReactPluginRules = (options = {}) => {
 		'react/forbid-elements': 'off',
 
 		// https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/forbid-foreign-prop-types.md
-		'react/forbid-foreign-prop-types': 'error',
+		'react/forbid-foreign-prop-types': 'warn',
 
 		// https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/forbid-prop-types.md
 		'react/forbid-prop-types': [
-			'error',
+			'warn',
 			{
 				forbid: ['any', 'array', 'object'],
 				checkContextTypes: true,
@@ -142,7 +142,7 @@ const getReactPluginRules = (options = {}) => {
 
 		// https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-handler-names.md
 		'react/jsx-handler-names': [
-			'warn',
+			'off',
 			{
 				eventHandlerPrefix: 'handle',
 				eventHandlerPropPrefix: 'on',
@@ -210,7 +210,7 @@ const getReactPluginRules = (options = {}) => {
 
 		// https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-no-leaked-render.md
 		'react/jsx-no-leaked-render': [
-			'warn',
+			'off',
 			{ validStrategies: ['ternary', 'coerce'] },
 		],
 
@@ -254,7 +254,7 @@ const getReactPluginRules = (options = {}) => {
 
 		// https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-props-no-spreading.md
 		'react/jsx-props-no-spreading': [
-			'error',
+			'warn',
 			{
 				html: 'enforce',
 				custom: 'ignore',
@@ -457,7 +457,7 @@ const getReactPluginRules = (options = {}) => {
 		],
 
 		// https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/state-in-constructor.md
-		'react/state-in-constructor': ['error', 'always'],
+		'react/state-in-constructor': ['off', 'always'],
 
 		// https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/static-property-placement.md
 		'react/static-property-placement': 'off',

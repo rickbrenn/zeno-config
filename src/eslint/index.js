@@ -419,6 +419,14 @@ const defineZenoConfig = (arg1, arg2) => {
 
 		// Turn off formatting rules that might conflict with Prettier
 		prettierPlugin,
+
+		{
+			files: [`**/*{${allExtensionsString}}`],
+			rules: {
+				// prettier disables this but we can safely enable it
+				curly: 'error',
+			},
+		},
 	]);
 };
 
