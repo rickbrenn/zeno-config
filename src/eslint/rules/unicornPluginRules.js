@@ -386,7 +386,7 @@ const getUnicornPluginRules = () => {
 		'unicorn/prefer-string-trim-start-end': 'warn',
 
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/prefer-structured-clone.md
-		'unicorn/prefer-structured-clone': 'error',
+		'unicorn/prefer-structured-clone': 'off',
 
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/prefer-switch.md
 		'unicorn/prefer-switch': 'off',
