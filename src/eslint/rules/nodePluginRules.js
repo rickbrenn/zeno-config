@@ -96,6 +96,9 @@ const getNodePluginRules = () => {
 		// https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/prefer-global/console.md
 		'n/prefer-global/console': 'error',
 
+		// https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/prefer-global/crypto.md
+		'n/prefer-global/crypto': 'error',
+
 		// https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/prefer-global/process.md
 		'n/prefer-global/process': 'error',
 
@@ -104,6 +107,9 @@ const getNodePluginRules = () => {
 
 		// https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/prefer-global/text-encoder.md
 		'n/prefer-global/text-encoder': 'error',
+
+		// https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/prefer-global/timers.md
+		'n/prefer-global/timers': 'error',
 
 		// https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/prefer-global/url.md
 		'n/prefer-global/url': 'error',

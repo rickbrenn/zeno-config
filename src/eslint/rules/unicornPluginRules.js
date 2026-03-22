@@ -56,9 +56,8 @@ const getUnicornPluginRules = () => {
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/import-style.md
 		'unicorn/import-style': 'off',
 
-		// TODO: new rule, enable once released
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/isolated-functions.md
-		// 'unicorn/isolated-functions': 'error',
+		'unicorn/isolated-functions': 'error',
 
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/new-for-builtins.md
 		'unicorn/new-for-builtins': 'error',

@@ -505,6 +505,10 @@ const getTypescriptPluginRules = () => {
 		// requires type information
 		'@typescript-eslint/strict-boolean-expressions': 'off',
 
+		// https://typescript-eslint.io/rules/strict-void-return
+		// requires type information
+		'@typescript-eslint/strict-void-return': 'off',
+
 		// https://typescript-eslint.io/rules/switch-exhaustiveness-check
 		// requires type information
 		'@typescript-eslint/switch-exhaustiveness-check': 'off',
