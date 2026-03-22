@@ -1,3 +1,5 @@
 import { defineZenoConfig } from './src/eslint/index.js';
 
-export default defineZenoConfig();
+export default defineZenoConfig({
+	ignores: ['**/*.d.ts'],
+});

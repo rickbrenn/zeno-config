@@ -15,6 +15,7 @@ import getBaseRules from './rules/baseRules.js';
 import getImportPluginRules from './rules/importPluginRules.js';
 import getReactPluginRules from './rules/reactPluginRules.js';
 import getReactHooksPluginRules from './rules/reactHooksPluginRules.js';
+import getReactCompilerPluginRules from './rules/reactCompilerPluginRules.js';
 import getStylisticPluginRules from './rules/stylisticPluginRules.js';
 import getNodePluginRules from './rules/nodePluginRules.js';
 import getReactYouMightNotNeedAnEffectPluginRules from './rules/reactYouMightNotNeedAnEffectPluginRules.js';
@@ -142,6 +143,7 @@ const nodeConfig = (options = {}) => {
  * @param {Object} [options={}] - Configuration options.
  * @param {string[]} [options.reactDirs] - Directories containing React files (for projects using .js for both React and Node).
  * @param {Object} [options.extensionsIgnorePattern] - Extension patterns to ignore for import rules.
+ * @param {boolean|string} [options.reactCompiler=false] - Enable React Compiler rules. Set to 'warn' for warnings or true for errors.
  * @returns {Array} ESLint flat config array.
  */
 const reactConfig = (options = {}) => {
@@ -181,6 +183,9 @@ const reactConfig = (options = {}) => {
 			rules: {
 				...getReactPluginRules({ extensions }),
 				...getReactHooksPluginRules(),
+				...(options.reactCompiler
+					? getReactCompilerPluginRules(options.reactCompiler)
+					: {}),
 				...getReactYouMightNotNeedAnEffectPluginRules(),
 				...getJsxA11yPluginRules(),
 
@@ -296,6 +301,7 @@ const internals = {
 		getUnicornPluginRules,
 		getReactPluginRules,
 		getReactHooksPluginRules,
+		getReactCompilerPluginRules,
 		getReactYouMightNotNeedAnEffectPluginRules,
 		getJsxA11yPluginRules,
 	},
@@ -306,6 +312,7 @@ const internals = {
  *
  * @param {Object|Array} arg1 - Options object or additional config array. If an array, treated as additional config.
  * @param {boolean} [arg1.react=false] - Enable React-specific rules.
+ * @param {boolean|string} [arg1.reactCompiler=false] - Enable React Compiler rules. Set to 'warn' for warnings or true for errors.
  * @param {boolean} [arg1.ts=true] - Enable TypeScript-specific rules.
  * @param {boolean} [arg1.performanceMode=false] - Disables expensive rules for performance.
  * @param {string[]} [arg1.ignores=[]] - Additional directories to ignore (added to defaults: dist, build).
@@ -333,6 +340,7 @@ const internals = {
 const defineZenoConfig = (arg1, arg2) => {
 	let options = {
 		react: false,
+		reactCompiler: false,
 		ts: false,
 		performanceMode: false,
 
@@ -394,6 +402,7 @@ const defineZenoConfig = (arg1, arg2) => {
 		? configs.getReact({
 				reactDirs: options.reactDirs,
 				extensionsIgnorePattern: options.extensionsIgnorePattern,
+				reactCompiler: options.reactCompiler,
 			})
 		: [];
 	const tsConfigResult = options.ts

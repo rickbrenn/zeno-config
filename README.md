@@ -47,6 +47,26 @@ export default defineZenoConfig({
 });
 ```
 
+#### React Compiler
+
+If you're using or preparing to adopt [React Compiler](https://react.dev/learn/react-compiler), you can opt in to its ESLint rules:
+
+```javascript
+import { defineZenoConfig } from 'zeno-config/eslint';
+
+// Preparing a codebase — surface compiler violations as warnings
+export default defineZenoConfig({
+	react: true,
+	reactCompiler: 'warn',
+});
+
+// Full enforcement — compiler rules as errors
+export default defineZenoConfig({
+	react: true,
+	reactCompiler: true,
+});
+```
+
 #### `engines` field in `package.json`
 
 Add an `engines` field to your `package.json` with your supported Node.js versions. Some rules for Node.js use this:
@@ -214,18 +234,19 @@ import {
 
 ### `defineZenoConfig(options, additionalESLintConfig)`
 
-| Option                      | Type       | Default     | Description                                                                                   |
-| --------------------------- | ---------- | ----------- | --------------------------------------------------------------------------------------------- |
-| `react`                     | `boolean`  | `false`     | Enable React-specific rules                                                                   |
-| `ts`                        | `boolean`  | `false`     | Enable TypeScript-specific rules                                                              |
-| `performanceMode`           | `boolean`  | `false`     | Disables expensive rules for better performance                                               |
-| `ignores`                   | `string[]` | `[]`        | Additional directories to ignore (added to defaults: node_modules, dist, build, coverage)     |
-| `reactDirs`                 | `string[]` | `[]`        | Directories containing React files (for projects using .js for both React and Node)           |
-| `nodeIgnoreDirs`            | `string[]` | `[]`        | Directories to ignore for Node-specific rules (defaults to `reactDirs` if not set)            |
-| `ignoreExports`             | `string[]` | `[]`        | Export patterns to ignore for import/no-unresolved rule                                       |
-| `additionalDevDependencies` | `string[]` | `[]`        | Additional file patterns to allow dev dependencies in (for import/no-extraneous-dependencies) |
-| `extensionsIgnorePattern`   | `object`   | `{}`        | Extension patterns to ignore for import/extensions rule                                       |
-| `webpackConfig`             | `string`   | `undefined` | Path to webpack config for import resolver                                                    |
+| Option                      | Type                    | Default     | Description                                                                                                           |
+| --------------------------- | ----------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------- |
+| `react`                     | `boolean`               | `false`     | Enable React-specific rules                                                                                           |
+| `reactCompiler`             | `boolean \| 'warn'`     | `false`     | Enable React Compiler rules. Set to `'warn'` to surface violations as warnings (for preparing a codebase), or `true` to enforce as errors |
+| `ts`                        | `boolean`               | `false`     | Enable TypeScript-specific rules                                                                                      |
+| `performanceMode`           | `boolean`               | `false`     | Disables expensive rules for better performance                                                                       |
+| `ignores`                   | `string[]`              | `[]`        | Additional directories to ignore (added to defaults: node_modules, dist, build, coverage)                             |
+| `reactDirs`                 | `string[]`              | `[]`        | Directories containing React files (for projects using .js for both React and Node)                                   |
+| `nodeIgnoreDirs`            | `string[]`              | `[]`        | Directories to ignore for Node-specific rules (defaults to `reactDirs` if not set)                                    |
+| `ignoreExports`             | `string[]`              | `[]`        | Export patterns to ignore for import/no-unresolved rule                                                               |
+| `additionalDevDependencies` | `string[]`              | `[]`        | Additional file patterns to allow dev dependencies in (for import/no-extraneous-dependencies)                         |
+| `extensionsIgnorePattern`   | `object`                | `{}`        | Extension patterns to ignore for import/extensions rule                                                               |
+| `webpackConfig`             | `string`                | `undefined` | Path to webpack config for import resolver                                                                            |
 
 ## Advanced Usage
 
@@ -290,7 +311,7 @@ See the TypeScript configuration files:
 - `eslint-plugin-n` - Node.js specific rules ([rules](src/eslint/rules/nodePluginRules.js))
 - `eslint-plugin-prettier` - Prettier integration
 - `eslint-plugin-react` (optional) - React specific rules ([rules](src/eslint/rules/reactPluginRules.js))
-- `eslint-plugin-react-hooks` (optional) - React Hooks rules ([rules](src/eslint/rules/reactHooksPluginRules.js))
+- `eslint-plugin-react-hooks` (optional) - React Hooks rules ([rules](src/eslint/rules/reactHooksPluginRules.js)) and React Compiler rules ([rules](src/eslint/rules/reactCompilerPluginRules.js))
 - `eslint-plugin-jsx-a11y` (optional) - Accessibility rules for JSX ([rules](src/eslint/rules/jsxA11yPluginRules.js))
 - `eslint-plugin-react-you-might-not-need-an-effect` (optional) - React Effect optimization ([rules](src/eslint/rules/reactYouMightNotNeedAnEffectPluginRules.js))
 - `typescript-eslint` (optional) - TypeScript rules ([rules](src/eslint/rules/typescriptPluginRules.js))

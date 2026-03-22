@@ -23,6 +23,8 @@ interface ReactConfigOptions {
 	reactDirs?: string[];
 	/** Extension patterns to ignore for import rules */
 	extensionsIgnorePattern?: Record<string, string>;
+	/** Enable React Compiler rules. Set to 'warn' for warnings or true for errors. */
+	reactCompiler?: boolean | 'warn';
 }
 
 interface TypescriptConfigOptions {
@@ -33,6 +35,8 @@ interface TypescriptConfigOptions {
 interface DefineZenoConfigOptions {
 	/** Enable React-specific rules */
 	react?: boolean;
+	/** Enable React Compiler rules. Set to 'warn' for warnings or true for errors. */
+	reactCompiler?: boolean | 'warn';
 	/** Enable TypeScript-specific rules */
 	ts?: boolean;
 	/** Disables expensive rules for performance */
@@ -90,6 +94,9 @@ interface Rules {
 		extensions?: string[];
 	}) => Linter.RulesRecord;
 	getReactHooksPluginRules: () => Linter.RulesRecord;
+	getReactCompilerPluginRules: (
+		mode?: boolean | 'warn'
+	) => Linter.RulesRecord;
 	getReactYouMightNotNeedAnEffectPluginRules: () => Linter.RulesRecord;
 	getJsxA11yPluginRules: () => Linter.RulesRecord;
 }
