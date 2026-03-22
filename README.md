@@ -166,6 +166,26 @@ Example:
 }
 ```
 
+### Gitignore
+
+Includes a shared `.gitignore` template with common patterns for your projects. Run the following command to add any missing patterns to your project's `.gitignore` (or create one if it doesn't exist):
+
+```bash
+npx zc-gitignore
+```
+
+The command only adds patterns that aren't already present. You can also add it as a setup script:
+
+```json
+{
+	"scripts": {
+		"setup:gitignore": "zc-gitignore"
+	}
+}
+```
+
+See [src/gitignore](src/gitignore) for the full list of included patterns.
+
 ### File Extensions Helpers
 
 Use in your build configs, webpack, etc:

@@ -47,8 +47,12 @@
 			"default": "./src/extensions.js"
 		}
 	},
+	"bin": {
+		"zc-gitignore": "./bin/gitignore.js"
+	},
 	"files": [
-		"src/**"
+		"src/**",
+		"bin/**"
 	],
 	"peerDependencies": {
 		"eslint": "^9.39.2",
