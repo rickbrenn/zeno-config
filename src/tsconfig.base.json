@@ -2,30 +2,30 @@
 	"$schema": "https://json.schemastore.org/tsconfig",
 	"compilerOptions": {
 		/* Language and Environment */
-		"target": "ES2022", // output code
-		"lib": ["ES2022"], // input code - Node.js ES support
+		"target": "ES2023",
+		"lib": ["ES2023"],
 
 		/* Modules */
 		"module": "NodeNext", // Node.js native ESM
 		"moduleResolution": "NodeNext", // Node.js native ESM resolution
-		"resolveJsonModule": true,
+		"moduleDetection": "force", // treat all files as modules
+		"verbatimModuleSyntax": true, // enforce explicit import type syntax and matching module syntax
 
 		/* Emit */
-		"outDir": "./dist",
 		"noEmit": true, // using external tools for compilation
 		"incremental": true, // cache type checking results
+		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.tsbuildinfo",
 
-		/* Interop Constraints */
-		"esModuleInterop": true, // CommonJS/ESM interop
-		"allowSyntheticDefaultImports": true, // allows default imports from modules with no default export
-		"isolatedModules": true, // ensures each file can be independently transpiled
+		/* Transpiler Compatibility */
+		"erasableSyntaxOnly": true, // disallow const enum, namespace, etc. for type-stripping tool compat
 
 		/* Type Checking */
-		"strict": true, // includes several rules it enables
+		"strict": true,
 		"noUnusedLocals": false, // using @typescript-eslint/no-unused-vars instead
 		"noUnusedParameters": false, // using @typescript-eslint/no-unused-vars instead
-		"noFallthroughCasesInSwitch": true,
-		"skipLibCheck": true, // skip dependency type checking (standard to set as true)
-		"noUncheckedIndexedAccess": true
+		"noFallthroughCasesInSwitch": false, // using eslint no-fallthrough instead
+		"noUncheckedIndexedAccess": true, // force handling undefined on index access
+		"noUncheckedSideEffectImports": true, // validate side-effect imports resolve
+		"skipLibCheck": true // skip type checking of declaration files
 	}
 }
