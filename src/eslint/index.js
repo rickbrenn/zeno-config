@@ -129,11 +129,6 @@ const nodeConfig = (options = {}) => {
 					...globals.node,
 				},
 			},
-			settings: {
-				node: {
-					version: '>=20.0.0',
-				},
-			},
 			plugins: {
 				n: nodePlugin,
 			},
