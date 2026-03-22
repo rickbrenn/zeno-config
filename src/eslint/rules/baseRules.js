@@ -190,7 +190,7 @@ const getBaseRules = () => {
 		],
 
 		// https://eslint.org/docs/latest/rules/no-useless-assignment
-		'no-useless-assignment': 'error',
+		'no-useless-assignment': 'off',
 
 		// https://eslint.org/docs/latest/rules/no-useless-backreference
 		'no-useless-backreference': 'error',
@@ -395,7 +395,7 @@ const getBaseRules = () => {
 
 		// https://eslint.org/docs/latest/rules/no-implicit-coercion
 		'no-implicit-coercion': [
-			'error',
+			'off',
 			{
 				boolean: true,
 				number: true,
@@ -488,7 +488,7 @@ const getBaseRules = () => {
 		],
 
 		// https://eslint.org/docs/latest/rules/no-plusplus
-		'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
+		'no-plusplus': ['off', { allowForLoopAfterthoughts: true }],
 
 		// https://eslint.org/docs/latest/rules/no-proto
 		'no-proto': 'error',

@@ -347,7 +347,7 @@ const getUnicornPluginRules = () => {
 		'unicorn/prefer-prototype-methods': 'error',
 
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/prefer-query-selector.md
-		'unicorn/prefer-query-selector': 'warn',
+		'unicorn/prefer-query-selector': 'off',
 
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/prefer-reflect-apply.md
 		'unicorn/prefer-reflect-apply': 'warn',
@@ -395,7 +395,7 @@ const getUnicornPluginRules = () => {
 		'unicorn/prefer-ternary': 'off',
 
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/prefer-top-level-await.md
-		'unicorn/prefer-top-level-await': 'error',
+		'unicorn/prefer-top-level-await': 'off',
 
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/prefer-type-error.md
 		'unicorn/prefer-type-error': 'warn',
