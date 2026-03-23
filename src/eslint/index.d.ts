@@ -9,6 +9,8 @@ interface BaseConfigOptions {
 	extensionsIgnorePattern?: Record<string, string>;
 	/** Path to webpack config for import resolver */
 	webpackConfig?: string;
+	/** Enable TypeScript import resolution */
+	ts?: boolean;
 	/** Disables expensive rules for performance */
 	performanceMode?: boolean;
 }

@@ -54,6 +54,7 @@ const defaultIgnoreDirs = [
  * @param {string[]} [options.additionalDevDependencies] - Additional file patterns to allow dev dependencies in (for no-extraneous-dependencies rule).
  * @param {Object} [options.extensionsIgnorePattern] - Extension patterns to ignore for import rules.
  * @param {string} [options.webpackConfig] - Path to webpack config for import resolver.
+ * @param {boolean} [options.ts=false] - Enable TypeScript import resolution.
  * @param {boolean} [options.performanceMode=false] - Disables expensive rules for performance.
  * @returns {Array} ESLint flat config array.
  */
@@ -72,6 +73,7 @@ const baseConfig = (options = {}) => {
 			settings: {
 				'import-x/resolver': {
 					node: { extensions: allExtensions },
+					...(options.ts ? { typescript: true } : {}),
 					...(options.webpackConfig
 						? { webpack: { config: options.webpackConfig } }
 						: {}),
@@ -415,6 +417,7 @@ const defineZenoConfig = (arg1, arg2) => {
 			ignoreExports: options.ignoreExports,
 			additionalDevDependencies: options.additionalDevDependencies,
 			webpackConfig: options.webpackConfig,
+			ts: options.ts,
 			extensionsIgnorePattern: options.extensionsIgnorePattern,
 			performanceMode: options.performanceMode,
 		}),
