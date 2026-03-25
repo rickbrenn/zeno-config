@@ -119,6 +119,7 @@ const getImportPluginRules = (options = {}) => {
 				commonjs: true,
 				caseSensitive: true,
 				caseSensitiveStrict: true,
+				ignore: ['\\?'], // ignore query params (example: svg imports in vite)
 			},
 		],
 
