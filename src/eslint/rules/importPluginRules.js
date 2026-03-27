@@ -155,7 +155,7 @@ const getImportPluginRules = (options = {}) => {
 		'import-x/max-dependencies': 'off',
 
 		// https://github.com/un-ts/eslint-plugin-import-x/blob/master/docs/rules/newline-after-import.md
-		'import-x/newline-after-import': ['warn', { considerComments: true }],
+		'import-x/newline-after-import': ['warn', { considerComments: false }],
 
 		// https://github.com/un-ts/eslint-plugin-import-x/blob/master/docs/rules/no-anonymous-default-export.md
 		'import-x/no-anonymous-default-export': 'off',
