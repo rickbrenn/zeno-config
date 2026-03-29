@@ -9,6 +9,7 @@ import unicornPlugin from 'eslint-plugin-unicorn';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import jsxA11yPlugin from 'eslint-plugin-jsx-a11y';
+import reactRefreshPlugin from 'eslint-plugin-react-refresh';
 import reactYouMightNotNeedAnEffectPlugin from 'eslint-plugin-react-you-might-not-need-an-effect';
 import typescriptEslint from 'typescript-eslint';
 import getBaseRules from './rules/baseRules.js';
@@ -18,6 +19,7 @@ import getReactHooksPluginRules from './rules/reactHooksPluginRules.js';
 import getReactCompilerPluginRules from './rules/reactCompilerPluginRules.js';
 import getStylisticPluginRules from './rules/stylisticPluginRules.js';
 import getNodePluginRules from './rules/nodePluginRules.js';
+import getReactRefreshPluginRules from './rules/reactRefreshPluginRules.js';
 import getReactYouMightNotNeedAnEffectPluginRules from './rules/reactYouMightNotNeedAnEffectPluginRules.js';
 import getJsxA11yPluginRules from './rules/jsxA11yPluginRules.js';
 import getUnicornPluginRules from './rules/unicornPluginRules.js';
@@ -203,6 +205,7 @@ const reactConfig = (options = {}) => {
 				...(options.reactCompiler
 					? getReactCompilerPluginRules(options.reactCompiler)
 					: {}),
+				...getReactRefreshPluginRules(),
 				...getReactYouMightNotNeedAnEffectPluginRules(),
 				...getJsxA11yPluginRules(),
 
@@ -223,6 +226,7 @@ const reactConfig = (options = {}) => {
 				reactPlugin.configs.flat.recommended,
 				reactPlugin.configs.flat['jsx-runtime'],
 				reactHooksPlugin.configs.flat.recommended,
+				reactRefreshPlugin.configs.recommended,
 				reactYouMightNotNeedAnEffectPlugin.configs.recommended,
 				jsxA11yPlugin.flatConfigs.recommended,
 			],
@@ -319,6 +323,7 @@ const internals = {
 		getReactPluginRules,
 		getReactHooksPluginRules,
 		getReactCompilerPluginRules,
+		getReactRefreshPluginRules,
 		getReactYouMightNotNeedAnEffectPluginRules,
 		getJsxA11yPluginRules,
 	},
