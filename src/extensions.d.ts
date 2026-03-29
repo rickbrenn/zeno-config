@@ -23,7 +23,7 @@ declare const reactJsExtensionsExtended: string[];
 /** String version of reactJsExtensionsExtended for use in glob patterns */
 declare const reactJsExtensionsExtendedString: string;
 
-/** Extended React extensions (includes .js, .jsx, and .tsx) */
+/** Extended React extensions (includes .js, .jsx, .ts, and .tsx) */
 declare const reactExtensionsExtended: string[];
 /** String version of reactExtensionsExtended for use in glob patterns */
 declare const reactExtensionsExtendedString: string;

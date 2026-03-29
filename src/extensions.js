@@ -18,6 +18,7 @@ const reactJsExtensionsExtended = [...jsExtensions, ...jsxExtensions];
 const reactExtensionsExtended = [
 	...jsExtensions,
 	...jsxExtensions,
+	...tsExtensions,
 	...tsxExtensions,
 ];
 const typescriptExtensions = [...tsExtensions, ...tsxExtensions];

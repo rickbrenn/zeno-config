@@ -46,6 +46,17 @@ const defaultIgnoreDirs = [
 	'**/coverage/*',
 ];
 
+const isFile = (entry) => /\.\w+$/.test(entry);
+
+const buildFilePatterns = (includes, extensionsString) => {
+	return includes.flatMap((entry) => {
+		if (isFile(entry)) {
+			return [entry];
+		}
+		return [`${entry}/**/*{${extensionsString}}`];
+	});
+};
+
 /**
  * Creates the base ESLint configuration.
  *
@@ -108,22 +119,29 @@ const baseConfig = (options = {}) => {
  * Creates the Node.js-specific ESLint configuration.
  *
  * @param {Object} [options={}] - Configuration options.
- * @param {string[]} [options.ignoreDirs] - Additional directories to ignore for Node-specific rules.
+ * @param {string[]} [options.includes] - Directories and files to apply Node-specific rules to. When set, Node rules only apply to these paths.
+ * @param {string[]} [options.ignoreDirs] - Directories to exclude from Node-specific rules (used internally for auto-exclude).
  * @returns {Array} ESLint flat config array.
  */
 const nodeConfig = (options = {}) => {
+	let files = [`**/*{${nodeExtensionsString}}`];
 	let ignores = [...defaultIgnoreDirs];
-	if (options.ignoreDirs && options.ignoreDirs.length > 0) {
+
+	if (options.includes?.length > 0) {
+		files = buildFilePatterns(options.includes, nodeExtensionsString);
+		ignores = [];
+	} else if (options.ignoreDirs?.length > 0) {
 		const optionsIgnoreDirs = options.ignoreDirs.map((dir) => {
 			return `${dir}/**/*{${nodeExtensionsString}}`;
 		});
 		ignores = [...ignores, ...optionsIgnoreDirs];
 	}
+
 	return [
 		{
 			name: 'zeno/node',
-			files: [`**/*{${nodeExtensionsString}}`],
-			ignores,
+			files,
+			...(ignores.length > 0 ? { ignores } : {}),
 			languageOptions: {
 				ecmaVersion: 'latest',
 				sourceType: 'module',
@@ -143,24 +161,21 @@ const nodeConfig = (options = {}) => {
  * Creates the React-specific ESLint configuration.
  *
  * @param {Object} [options={}] - Configuration options.
- * @param {string[]} [options.reactDirs] - Directories containing React files (for projects using .js for both React and Node).
+ * @param {string[]} [options.includes] - Directories and files containing React code. Setting this enables React rules for all file types in these paths.
  * @param {Object} [options.extensionsIgnorePattern] - Extension patterns to ignore for import rules.
  * @param {boolean|string} [options.reactCompiler=false] - Enable React Compiler rules. Set to 'warn' for warnings or true for errors.
  * @returns {Array} ESLint flat config array.
  */
 const reactConfig = (options = {}) => {
-	let files = [`**/*{${reactExtensionsString}}`];
-	let extensions = reactExtensions;
+	let files;
+	let extensions;
 
-	if (
-		options.reactDirs &&
-		Array.isArray(options.reactDirs) &&
-		options.reactDirs.length > 0
-	) {
-		files = options.reactDirs.map((dir) => {
-			return `${dir}/**/*{${reactExtensionsExtendedString}}`;
-		});
+	if (options.includes?.length > 0) {
+		files = buildFilePatterns(options.includes, allExtensionsString);
 		extensions = reactExtensionsExtended;
+	} else {
+		files = [`**/*{${reactExtensionsString}}`];
+		extensions = reactExtensions;
 	}
 
 	return [
@@ -313,13 +328,12 @@ const internals = {
  * Defines a Zeno ESLint configuration.
  *
  * @param {Object|Array} arg1 - Options object or additional config array. If an array, treated as additional config.
- * @param {boolean} [arg1.react=false] - Enable React-specific rules.
- * @param {boolean|string} [arg1.reactCompiler=false] - Enable React Compiler rules. Set to 'warn' for warnings or true for errors.
- * @param {boolean} [arg1.ts=true] - Enable TypeScript-specific rules.
+ * @param {string[]} [arg1.reactIncludes=[]] - Directories and files containing React code. Setting this enables React rules for all file types in these paths.
+ * @param {boolean|string} [arg1.reactCompiler=false] - Enable React Compiler rules. Set to true to enforce as errors, or 'warn' for warnings (recommended when preparing a codebase for React Compiler adoption).
+ * @param {boolean} [arg1.ts=false] - Enable TypeScript-specific rules.
  * @param {boolean} [arg1.performanceMode=false] - Disables expensive rules for performance.
  * @param {string[]} [arg1.ignores=[]] - Additional directories to ignore (added to defaults: dist, build).
- * @param {string[]} [arg1.reactDirs=[]] - Directories containing React files (for projects using .js for both React and Node).
- * @param {string[]} [arg1.nodeIgnoreDirs=[]] - Directories to ignore for Node-specific rules only.
+ * @param {string[]} [arg1.nodeIncludes=[]] - Directories and files containing Node.js code. When set, Node-specific rules only apply to these paths.
  * @param {string[]} [arg1.ignoreExports=[]] - Export patterns to ignore for import rules.
  * @param {string[]} [arg1.additionalDevDependencies=[]] - Additional file patterns to allow dev dependencies in (for no-extraneous-dependencies rule).
  * @param {Object} [arg1.extensionsIgnorePattern={}] - Extension patterns to ignore for import rules.
@@ -328,12 +342,12 @@ const internals = {
  * @returns {Array} ESLint flat config array.
  *
  * @example
- * // With options object
- * defineZenoConfig({ react: true, ts: true })
+ * // React + TypeScript
+ * defineZenoConfig({ reactIncludes: ['src'], ts: true })
  *
  * @example
  * // With additional config
- * defineZenoConfig({ react: true }, [customConfig])
+ * defineZenoConfig({ reactIncludes: ['src'], ts: true }, [customConfig])
  *
  * @example
  * // With config array only
@@ -341,17 +355,14 @@ const internals = {
  */
 const defineZenoConfig = (arg1, arg2) => {
 	let options = {
-		react: false,
 		reactCompiler: false,
 		ts: false,
 		performanceMode: false,
 
-		// additional directories to ignore (added to defaults: dist, build)
 		ignores: [],
 
-		// if a project uses .js file extension for both react and node files this will help separate the rules for each
-		reactDirs: [],
-		nodeIgnoreDirs: [],
+		reactIncludes: [],
+		nodeIncludes: [],
 
 		ignoreExports: [],
 		additionalDevDependencies: [],
@@ -371,11 +382,11 @@ const defineZenoConfig = (arg1, arg2) => {
 	if (!Array.isArray(options.ignores)) {
 		options.ignores = [];
 	}
-	if (!Array.isArray(options.reactDirs)) {
-		options.reactDirs = [];
+	if (!Array.isArray(options.reactIncludes)) {
+		options.reactIncludes = [];
 	}
-	if (!Array.isArray(options.nodeIgnoreDirs)) {
-		options.nodeIgnoreDirs = [];
+	if (!Array.isArray(options.nodeIncludes)) {
+		options.nodeIncludes = [];
 	}
 	if (!Array.isArray(options.ignoreExports)) {
 		options.ignoreExports = [];
@@ -390,25 +401,31 @@ const defineZenoConfig = (arg1, arg2) => {
 		options.extensionsIgnorePattern = {};
 	}
 
-	// use the reactDirs as the nodeIgnoreDirs if they are not set since they would likely be the same
-	if (
-		options.react &&
-		options.reactDirs.length > 0 &&
-		options.nodeIgnoreDirs.length === 0
-	) {
-		options.nodeIgnoreDirs = [...options.reactDirs];
+	const isReact = options.reactIncludes.length > 0;
+
+	// Determine Node config options
+	let nodeOptions = {};
+	if (options.nodeIncludes.length > 0) {
+		nodeOptions = { includes: options.nodeIncludes };
+	} else if (isReact) {
+		// Auto-exclude reactIncludes directories from Node rules
+		const reactDirs = options.reactIncludes.filter(
+			(entry) => !isFile(entry)
+		);
+		if (reactDirs.length > 0) {
+			nodeOptions = { ignoreDirs: reactDirs };
+		}
 	}
 
-	// Load optional configs if needed
-	const reactConfigResult = options.react
+	const reactConfigResult = isReact
 		? configs.getReact({
-				reactDirs: options.reactDirs,
+				includes: options.reactIncludes,
 				extensionsIgnorePattern: options.extensionsIgnorePattern,
 				reactCompiler: options.reactCompiler,
 			})
 		: [];
 	const tsConfigResult = options.ts
-		? configs.getTypescript({ react: options.react })
+		? configs.getTypescript({ react: isReact })
 		: [];
 
 	return defineConfig([
@@ -421,9 +438,7 @@ const defineZenoConfig = (arg1, arg2) => {
 			extensionsIgnorePattern: options.extensionsIgnorePattern,
 			performanceMode: options.performanceMode,
 		}),
-		...configs.getNode({
-			ignoreDirs: options.nodeIgnoreDirs,
-		}),
+		...configs.getNode(nodeOptions),
 		...reactConfigResult,
 		...tsConfigResult,
 

@@ -16,16 +16,18 @@ interface BaseConfigOptions {
 }
 
 interface NodeConfigOptions {
-	/** Additional directories to ignore for Node-specific rules */
+	/** Directories and files to apply Node-specific rules to. When set, Node rules only apply to these paths. */
+	includes?: string[];
+	/** Directories to exclude from Node-specific rules (used internally for auto-exclude) */
 	ignoreDirs?: string[];
 }
 
 interface ReactConfigOptions {
-	/** Directories containing React files (for projects using .js for both React and Node) */
-	reactDirs?: string[];
+	/** Directories and files containing React code. Setting this enables React rules for all file types in these paths. */
+	includes?: string[];
 	/** Extension patterns to ignore for import rules */
 	extensionsIgnorePattern?: Record<string, string>;
-	/** Enable React Compiler rules. Set to 'warn' for warnings or true for errors. */
+	/** Enable React Compiler rules. Set to true to enforce as errors, or 'warn' for warnings (recommended when preparing a codebase for React Compiler adoption). */
 	reactCompiler?: boolean | 'warn';
 }
 
@@ -35,20 +37,18 @@ interface TypescriptConfigOptions {
 }
 
 interface DefineZenoConfigOptions {
-	/** Enable React-specific rules */
-	react?: boolean;
-	/** Enable React Compiler rules. Set to 'warn' for warnings or true for errors. */
+	/** Directories and files containing React code. Setting this enables React rules for all file types in these paths. */
+	reactIncludes?: string[];
+	/** Enable React Compiler rules. Set to true to enforce as errors, or 'warn' for warnings (recommended when preparing a codebase for React Compiler adoption). */
 	reactCompiler?: boolean | 'warn';
 	/** Enable TypeScript-specific rules */
 	ts?: boolean;
 	/** Disables expensive rules for performance */
 	performanceMode?: boolean;
-	/** Additional directories to ignore (added to defaults: dist, build) */
+	/** Additional directories to ignore (added to defaults: node_modules, dist, build, coverage) */
 	ignores?: string[];
-	/** Directories containing React files (for projects using .js for both React and Node) */
-	reactDirs?: string[];
-	/** Directories to ignore for Node-specific rules only */
-	nodeIgnoreDirs?: string[];
+	/** Directories and files containing Node.js code. When set, Node-specific rules only apply to these paths. */
+	nodeIncludes?: string[];
 	/** Export patterns to ignore for import rules */
 	ignoreExports?: string[];
 	/** Additional file patterns to allow dev dependencies in (for no-extraneous-dependencies rule) */
@@ -119,12 +119,12 @@ declare const internals: Internals;
  * @returns ESLint flat config array.
  *
  * @example
- * // With options object (using default export)
- * export default defineZenoConfig({ react: true, ts: true })
+ * // React + TypeScript
+ * export default defineZenoConfig({ reactIncludes: ['src'], ts: true })
  *
  * @example
  * // With additional config
- * export default defineZenoConfig({ react: true }, [customConfig])
+ * export default defineZenoConfig({ reactIncludes: ['src'], ts: true }, [customConfig])
  *
  * @example
  * // With config array only

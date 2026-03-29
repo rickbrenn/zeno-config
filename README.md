@@ -42,8 +42,8 @@ Create an `eslint.config.js` file in your project root:
 import { defineZenoConfig } from 'zeno-config/eslint';
 
 export default defineZenoConfig({
+	reactIncludes: ['src'], // Directories/files with React code (enables React rules)
 	ts: true, // Enable TypeScript support (default: false)
-	react: true, // Enable React support (default: false)
 });
 ```
 
@@ -54,16 +54,16 @@ If you're using or preparing to adopt [React Compiler](https://react.dev/learn/r
 ```javascript
 import { defineZenoConfig } from 'zeno-config/eslint';
 
-// Preparing a codebase — surface compiler violations as warnings
-export default defineZenoConfig({
-	react: true,
-	reactCompiler: 'warn',
-});
-
 // Full enforcement — compiler rules as errors
 export default defineZenoConfig({
-	react: true,
+	reactIncludes: ['src'],
 	reactCompiler: true,
+});
+
+// Preparing a codebase — surface compiler violations as warnings
+export default defineZenoConfig({
+	reactIncludes: ['src'],
+	reactCompiler: 'warn',
 });
 ```
 
@@ -86,17 +86,16 @@ import { defineZenoConfig } from 'zeno-config/eslint';
 
 export default defineZenoConfig(
 	{
-		react: true,
 		ts: true,
+
+		// Directories and files containing React code (enables React rules for all file types in these paths)
+		reactIncludes: ['src/client', 'src/components'],
+
+		// Directories and files containing Node.js code (scopes Node rules to these paths)
+		nodeIncludes: ['src/server', 'vite.config.ts', 'eslint.config.js'],
 
 		// Additional directories to ignore (added to defaults: node_modules, dist, build, coverage)
 		ignores: ['out', '.next'],
-
-		// If using .js extensions for React files, specify React directories
-		reactDirs: ['src/client', 'src/components'],
-
-		// Ignore Node.js rules in specific directories (defaults to reactDirs)
-		nodeIgnoreDirs: ['src/client'],
 
 		// Patterns to ignore for import/no-unresolved rule
 		ignoreExports: ['^@/'],
@@ -218,7 +217,7 @@ import {
 	reactJsExtensions, // JSX-only extensions: .jsx, .mjsx, .cjsx
 	reactJsExtensionsExtended, // JS + JSX extensions: .js, .mjs, .cjs, .jsx, .mjsx, .cjsx
 	reactExtensions, // React extensions (JSX + TSX): .jsx, .mjsx, .cjsx, .tsx, .mtsx, .ctsx
-	reactExtensionsExtended, // JS + JSX + TSX extensions: .js, .mjs, .cjs, .jsx, .mjsx, .cjsx, .tsx, .mtsx, .ctsx
+	reactExtensionsExtended, // All extensions for React directories: .js, .mjs, .cjs, .jsx, .mjsx, .cjsx, .ts, .cts, .mts, .tsx, .mtsx, .ctsx
 	typescriptExtensions, // TypeScript extensions: .ts, .cts, .mts, .tsx, .mtsx, .ctsx
 
 	// String versions for glob patterns (comma-separated)
@@ -227,7 +226,7 @@ import {
 	reactJsExtensionsString, // ".jsx,.mjsx,.cjsx"
 	reactJsExtensionsExtendedString, // ".js,.mjs,.cjs,.jsx,.mjsx,.cjsx"
 	reactExtensionsString, // ".jsx,.mjsx,.cjsx,.tsx,.mtsx,.ctsx"
-	reactExtensionsExtendedString, // ".js,.mjs,.cjs,.jsx,.mjsx,.cjsx,.tsx,.mtsx,.ctsx"
+	reactExtensionsExtendedString, // ".js,.mjs,.cjs,.jsx,.mjsx,.cjsx,.ts,.cts,.mts,.tsx,.mtsx,.ctsx"
 	typescriptExtensionsString, // ".ts,.cts,.mts,.tsx,.mtsx,.ctsx"
 } from 'zeno-config/extensions';
 ```
@@ -236,13 +235,12 @@ import {
 
 | Option                      | Type                    | Default     | Description                                                                                                           |
 | --------------------------- | ----------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------- |
-| `react`                     | `boolean`               | `false`     | Enable React-specific rules                                                                                           |
-| `reactCompiler`             | `boolean \| 'warn'`     | `false`     | Enable React Compiler rules. Set to `'warn'` to surface violations as warnings (for preparing a codebase), or `true` to enforce as errors |
+| `reactIncludes`             | `string[]`              | `[]`        | Directories and files containing React code. Setting this enables all React rules (hooks, JSX, a11y, etc.) for all file types in these paths. |
+| `reactCompiler`             | `boolean \| 'warn'`     | `false`     | Enable React Compiler rules. Set to `true` to enforce as errors, or `'warn'` to surface violations as warnings (recommended when preparing a codebase for React Compiler adoption). |
 | `ts`                        | `boolean`               | `false`     | Enable TypeScript-specific rules                                                                                      |
 | `performanceMode`           | `boolean`               | `false`     | Disables expensive rules for better performance                                                                       |
 | `ignores`                   | `string[]`              | `[]`        | Additional directories to ignore (added to defaults: node_modules, dist, build, coverage)                             |
-| `reactDirs`                 | `string[]`              | `[]`        | Directories containing React files (for projects using .js for both React and Node)                                   |
-| `nodeIgnoreDirs`            | `string[]`              | `[]`        | Directories to ignore for Node-specific rules (defaults to `reactDirs` if not set)                                    |
+| `nodeIncludes`              | `string[]`              | `[]`        | Directories and files containing Node.js code. When set, Node-specific rules only apply to these paths. When not set but `reactIncludes` is set, `reactIncludes` directories are automatically excluded from Node rules. |
 | `ignoreExports`             | `string[]`              | `[]`        | Export patterns to ignore for import/no-unresolved rule                                                               |
 | `additionalDevDependencies` | `string[]`              | `[]`        | Additional file patterns to allow dev dependencies in (for import/no-extraneous-dependencies)                         |
 | `extensionsIgnorePattern`   | `object`                | `{}`        | Extension patterns to ignore for import/extensions rule                                                               |
@@ -261,9 +259,9 @@ const { configs, rules, extensions } = zenoInternals;
 
 export default [
 	...configs.getBase(),
-	...configs.getNode(),
-	...configs.getReact(),
-	...configs.getTypescript(),
+	...configs.getNode({ includes: ['src/server'] }),
+	...configs.getReact({ includes: ['src'] }),
+	...configs.getTypescript({ react: true }),
 	// Your custom configs
 ];
 ```
