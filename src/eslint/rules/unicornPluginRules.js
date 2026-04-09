@@ -430,7 +430,7 @@ const getUnicornPluginRules = () => {
 		'unicorn/template-indent': 'off', // conflicts with prettier
 
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/text-encoding-identifier-case.md
-		'unicorn/text-encoding-identifier-case': 'error',
+		'unicorn/text-encoding-identifier-case': 'off',
 
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/throw-new-error.md
 		'unicorn/throw-new-error': 'error', // handled by unicorn/new-for-builtins
