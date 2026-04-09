@@ -9,6 +9,7 @@
 		"module": "NodeNext", // Node.js native ESM
 		"moduleResolution": "NodeNext", // Node.js native ESM resolution
 		"moduleDetection": "force", // treat all files as modules
+		"resolveJsonModule": true, // allow importing .json files with type safety
 		"verbatimModuleSyntax": true, // enforce explicit import type syntax and matching module syntax
 
 		/* Emit */

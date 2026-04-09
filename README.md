@@ -157,6 +157,15 @@ For Node.js projects, extend the provided TypeScript config in your `tsconfig.js
 }
 ```
 
+For backend servers using bundlers like `tsup` or `tsx`:
+
+```json
+{
+	"extends": "zeno-config/tsconfig-server"
+	// your tsconfig options
+}
+```
+
 For React projects:
 
 ```json
@@ -298,6 +307,7 @@ See [src/prettier.js](src/prettier.js) for the default Prettier configuration.
 See the TypeScript configuration files:
 
 - [src/tsconfig.base.json](src/tsconfig.base.json) - Base configuration for Node.js projects
+- [src/tsconfig.server.json](src/tsconfig.server.json) - Configuration for backend servers using bundlers like tsup/tsx (extends base)
 - [src/tsconfig.react.json](src/tsconfig.react.json) - Configuration for React projects (extends base)
 
 ### Included Plugins
