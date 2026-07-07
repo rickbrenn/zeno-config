@@ -1,4 +1,7 @@
+import { readFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
 import { defineConfig } from 'eslint/config';
+import { fixupConfigRules } from '@eslint/compat';
 import js from '@eslint/js';
 import globals from 'globals';
 import importX from 'eslint-plugin-import-x';
@@ -48,6 +51,24 @@ const defaultIgnoreDirs = [
 	'**/coverage/*',
 ];
 
+// eslint-plugin-react@7's `version: 'detect'` path relies on `context.getFilename()`,
+// which ESLint 10 removed, causing a crash. Detect the consumer's installed React
+// version ourselves (from their cwd) and pass it explicitly so version-gated rules
+// still behave correctly. Fall back to the plugin's "assume latest" sentinel.
+const detectReactVersion = () => {
+	try {
+		const require = createRequire(import.meta.url);
+		const pkgPath = require.resolve('react/package.json', {
+			paths: [process.cwd()],
+		});
+		return JSON.parse(readFileSync(pkgPath, 'utf8')).version;
+	} catch {
+		return '999.999.999';
+	}
+};
+
+const detectedReactVersion = detectReactVersion();
+
 const isFile = (entry) => /\.\w+$/.test(entry);
 
 const buildFilePatterns = (includes, extensionsString) => {
@@ -86,10 +107,10 @@ const baseConfig = (options = {}) => {
 			settings: {
 				'import-x/resolver': {
 					node: { extensions: allExtensions },
-					...(options.ts ? { typescript: true } : {}),
-					...(options.webpackConfig
-						? { webpack: { config: options.webpackConfig } }
-						: {}),
+					...(options.ts && { typescript: true }),
+					...(options.webpackConfig && {
+						webpack: { config: options.webpackConfig },
+					}),
 				},
 			},
 			plugins: {
@@ -143,7 +164,7 @@ const nodeConfig = (options = {}) => {
 		{
 			name: 'zeno/node',
 			files,
-			...(ignores.length > 0 ? { ignores } : {}),
+			...(ignores.length > 0 && { ignores }),
 			languageOptions: {
 				ecmaVersion: 'latest',
 				sourceType: 'module',
@@ -196,15 +217,14 @@ const reactConfig = (options = {}) => {
 			},
 			settings: {
 				react: {
-					version: 'detect',
+					version: detectedReactVersion,
 				},
 			},
 			rules: {
 				...getReactPluginRules({ extensions }),
 				...getReactHooksPluginRules(),
-				...(options.reactCompiler
-					? getReactCompilerPluginRules(options.reactCompiler)
-					: {}),
+				...(options.reactCompiler &&
+					getReactCompilerPluginRules(options.reactCompiler)),
 				...getReactRefreshPluginRules(),
 				...getReactYouMightNotNeedAnEffectPluginRules(),
 				...getJsxA11yPluginRules(),
@@ -223,12 +243,15 @@ const reactConfig = (options = {}) => {
 			},
 			extends: [
 				// if a new rule is added it'll use the recommended setting until it's added to the rules files
-				reactPlugin.configs.flat.recommended,
-				reactPlugin.configs.flat['jsx-runtime'],
+				// eslint-plugin-react and eslint-plugin-jsx-a11y still use ESLint context
+				// methods removed in v10 (getFilename/getSourceCode), so wrap them with
+				// @eslint/compat's fixupConfigRules to shim those APIs under ESLint 10.
+				...fixupConfigRules(reactPlugin.configs.flat.recommended),
+				...fixupConfigRules(reactPlugin.configs.flat['jsx-runtime']),
 				reactHooksPlugin.configs.flat.recommended,
 				reactRefreshPlugin.configs.recommended,
 				reactYouMightNotNeedAnEffectPlugin.configs.recommended,
-				jsxA11yPlugin.flatConfigs.recommended,
+				...fixupConfigRules(jsxA11yPlugin.flatConfigs.recommended),
 			],
 		},
 	];
@@ -277,14 +300,12 @@ const typescriptConfig = (options = {}) => {
 
 				'import-x/named': 'off',
 
-				...(options.react
-					? {
-							'react/default-props-match-prop-types': 'off',
-							'react/prop-types': 'off',
-							'react/forbid-foreign-prop-types': 'off',
-							'react/forbid-prop-types': 'off',
-						}
-					: {}),
+				...(options.react && {
+					'react/default-props-match-prop-types': 'off',
+					'react/prop-types': 'off',
+					'react/forbid-foreign-prop-types': 'off',
+					'react/forbid-prop-types': 'off',
+				}),
 			},
 		},
 	];

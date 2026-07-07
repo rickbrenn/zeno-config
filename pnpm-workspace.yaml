@@ -1,0 +1,13 @@
+allowBuilds:
+  unrs-resolver: true
+
+# eslint-plugin-react and eslint-plugin-jsx-a11y are at their latest published
+# versions but still cap their `eslint` peer at v9. They function under ESLint 10
+# (no reliance on removed APIs); allow v10 to silence the peer warnings.
+# eslint-plugin-import is an optional transitive peer of the import resolvers; we
+# use eslint-plugin-import-x instead, so its v9 eslint cap is irrelevant here.
+peerDependencyRules:
+  allowedVersions:
+    'eslint-plugin-react>eslint': '10'
+    'eslint-plugin-jsx-a11y>eslint': '10'
+    'eslint-plugin-import>eslint': '10'

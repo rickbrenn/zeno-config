@@ -3,8 +3,11 @@
 	"extends": "./tsconfig.base.json",
 	"compilerOptions": {
 		/* Language and Environment */
-		"lib": ["ES2023", "DOM", "DOM.Iterable"], // browser APIs
+		// DOM.Iterable was merged into DOM in TS6 (redundant there) but is still
+		// required for TS 5.9 consumers; revisit once the min TypeScript is 6.0.
+		"lib": ["ES2024", "DOM", "DOM.Iterable"], // browser APIs
 		"jsx": "react-jsx", // React 17+ automatic jsx transform
+		"types": [], // Override the base `types: ["node"]`
 
 		/* Modules */
 		"module": "ESNext", // bundler handles module compilation

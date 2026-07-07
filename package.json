@@ -1,6 +1,6 @@
 {
 	"name": "zeno-config",
-	"version": "5.1.0",
+	"version": "6.0.0",
 	"description": "Preconfigured and opinionated ESLint, Prettier, and TypeScript setup",
 	"author": "Rick Brenn <brenn.rick@gmail.com>",
 	"license": "MIT",
@@ -23,9 +23,9 @@
 		"url": "https://github.com/rickbrenn/zeno-config/issues"
 	},
 	"type": "module",
-	"packageManager": "pnpm@10.25.0",
+	"packageManager": "pnpm@11.9.0",
 	"engines": {
-		"node": ">=20"
+		"node": ">=22"
 	},
 	"scripts": {
 		"inspect": "eslint --inspect-config",
@@ -56,9 +56,9 @@
 		"bin/**"
 	],
 	"peerDependencies": {
-		"eslint": "^9.39.2",
-		"prettier": "^3.8.0",
-		"typescript": "^5.9.3"
+		"eslint": "^10.0.0",
+		"prettier": "^3.9.0",
+		"typescript": "^5.9.3 || ^6.0.0"
 	},
 	"peerDependenciesMeta": {
 		"typescript": {
@@ -66,26 +66,27 @@
 		}
 	},
 	"devDependencies": {
-		"eslint": "9.39.2",
-		"prettier": "3.8.1",
-		"typescript": "5.9.3"
+		"eslint": "10.6.0",
+		"prettier": "3.9.1",
+		"typescript": "6.0.3"
 	},
 	"dependencies": {
-		"@eslint/js": "9.39.2",
+		"@eslint/compat": "2.1.0",
+		"@eslint/js": "10.0.1",
 		"@stylistic/eslint-plugin": "5.10.0",
 		"eslint-config-prettier": "10.1.8",
-		"eslint-import-resolver-typescript": "4.4.4",
-		"eslint-import-resolver-webpack": "0.13.10",
-		"eslint-plugin-import-x": "4.16.2",
+		"eslint-import-resolver-typescript": "4.4.5",
+		"eslint-import-resolver-webpack": "0.13.11",
+		"eslint-plugin-import-x": "4.17.1",
 		"eslint-plugin-jsx-a11y": "6.10.2",
-		"eslint-plugin-n": "17.24.0",
-		"eslint-plugin-prettier": "5.5.5",
+		"eslint-plugin-n": "18.2.1",
+		"eslint-plugin-prettier": "5.5.6",
 		"eslint-plugin-react": "7.37.5",
-		"eslint-plugin-react-hooks": "7.0.1",
-		"eslint-plugin-react-refresh": "0.5.2",
-		"eslint-plugin-react-you-might-not-need-an-effect": "0.9.2",
-		"eslint-plugin-unicorn": "63.0.0",
-		"globals": "17.4.0",
-		"typescript-eslint": "8.57.1"
+		"eslint-plugin-react-hooks": "7.1.1",
+		"eslint-plugin-react-refresh": "0.5.3",
+		"eslint-plugin-react-you-might-not-need-an-effect": "1.0.1",
+		"eslint-plugin-unicorn": "69.0.0",
+		"globals": "17.7.0",
+		"typescript-eslint": "8.62.0"
 	}
 }

@@ -4,7 +4,7 @@ Preconfigured ESLint, Prettier, and TypeScript setup for modern JavaScript and R
 
 ## Features
 
-- 🚀 **ESLint 9+ flat config** - Modern configuration format
+- 🚀 **ESLint 10 flat config** - Modern configuration format
 - ⚛️ **React support** - Comprehensive React, React Hooks, and JSX accessibility rules
 - 📘 **TypeScript ready** - Full TypeScript support with type-aware linting
 - 💅 **Prettier integration** - Seamless formatting with ESLint
@@ -13,8 +13,9 @@ Preconfigured ESLint, Prettier, and TypeScript setup for modern JavaScript and R
 
 ## Requirements
 
-- Node.js >= 20
-- ESLint >= 9
+- Node.js >= 22
+- ESLint >= 10
+- TypeScript >= 5.9 (optional; TypeScript 6 supported)
 
 ## Installation
 
@@ -74,7 +75,7 @@ Add an `engines` field to your `package.json` with your supported Node.js versio
 ```json
 {
 	"engines": {
-		"node": ">=20"
+		"node": ">=22"
 	}
 }
 ```

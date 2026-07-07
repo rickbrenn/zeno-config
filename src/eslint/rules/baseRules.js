@@ -686,7 +686,7 @@ const getBaseRules = () => {
 		'preserve-caught-error': ['error', { requireCatchParameter: true }],
 
 		// https://eslint.org/docs/latest/rules/radix
-		radix: ['error', 'as-needed'],
+		radix: 'off',
 
 		// https://eslint.org/docs/latest/rules/require-await
 		'require-await': 'off',
