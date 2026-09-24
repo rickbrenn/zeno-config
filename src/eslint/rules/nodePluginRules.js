@@ -117,8 +117,14 @@ const getNodePluginRules = () => {
 		// https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/prefer-global/url-search-params.md
 		'n/prefer-global/url-search-params': 'error',
 
+		// https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/prefer-import/assert-strict.md
+		'n/prefer-import/assert-strict': 'error',
+
 		// https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/prefer-node-protocol.md
 		'n/prefer-node-protocol': 'off', // handled by unicorn/prefer-node-protocol
+
+		// https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/prefer-process-get-builtin-module.md
+		'n/prefer-process-get-builtin-module': 'off',
 
 		// https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/prefer-promises/dns.md
 		'n/prefer-promises/dns': 'off',

@@ -73,7 +73,14 @@ const getStylisticPluginRules = () => {
 		'@stylistic/jsx-closing-tag-location': 'off', // conflicts with prettier
 
 		// https://eslint.style/rules/jsx-curly-brace-presence
-		'@stylistic/jsx-curly-brace-presence': 'off', // conflicts with react/jsx-curly-brace-presence
+		'@stylistic/jsx-curly-brace-presence': [
+			'error',
+			{
+				props: 'never',
+				children: 'never',
+				propElementValues: 'always',
+			},
+		],
 
 		// https://eslint.style/rules/jsx-curly-newline
 		'@stylistic/jsx-curly-newline': 'off', // conflicts with prettier
@@ -105,8 +112,10 @@ const getStylisticPluginRules = () => {
 		// https://eslint.style/rules/jsx-one-expression-per-line
 		'@stylistic/jsx-one-expression-per-line': 'off', // conflicts with prettier
 
+		// mostly self-enforcing: lowercase-named components are treated as DOM
+		// elements and fail at runtime (and TypeScript errors on unknown tags)
 		// https://eslint.style/rules/jsx-pascal-case
-		'@stylistic/jsx-pascal-case': 'off', // conflicts with react/jsx-pascal-case
+		'@stylistic/jsx-pascal-case': 'off',
 
 		// https://eslint.style/rules/jsx-props-no-multi-spaces
 		'@stylistic/jsx-props-no-multi-spaces': 'off', // conflicts with prettier
@@ -115,7 +124,7 @@ const getStylisticPluginRules = () => {
 		'@stylistic/jsx-quotes': 'off', // conflicts with prettier
 
 		// https://eslint.style/rules/jsx-self-closing-comp
-		'@stylistic/jsx-self-closing-comp': 'off', // conflicts with react/self-closing-comp
+		'@stylistic/jsx-self-closing-comp': 'error',
 
 		// https://eslint.style/rules/jsx-tag-spacing
 		'@stylistic/jsx-tag-spacing': 'off', // conflicts with prettier

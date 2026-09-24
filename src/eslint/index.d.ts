@@ -31,11 +31,6 @@ interface ReactConfigOptions {
 	reactCompiler?: boolean | 'warn';
 }
 
-interface TypescriptConfigOptions {
-	/** Enable React-specific rules */
-	react?: boolean;
-}
-
 interface DefineZenoConfigOptions {
 	/** Directories and files containing React code. Setting this enables React rules for all file types in these paths. */
 	reactIncludes?: string[];
@@ -80,7 +75,7 @@ interface Configs {
 	getBase: (options?: BaseConfigOptions) => Linter.Config[];
 	getReact: (options?: ReactConfigOptions) => Linter.Config[];
 	getNode: (options?: NodeConfigOptions) => Linter.Config[];
-	getTypescript: (options?: TypescriptConfigOptions) => Linter.Config[];
+	getTypescript: () => Linter.Config[];
 }
 
 interface Rules {
@@ -92,9 +87,7 @@ interface Rules {
 	}) => Linter.RulesRecord;
 	getStylisticPluginRules: () => Linter.RulesRecord;
 	getUnicornPluginRules: () => Linter.RulesRecord;
-	getReactPluginRules: (options?: {
-		extensions?: string[];
-	}) => Linter.RulesRecord;
+	getReactPluginRules: () => Linter.RulesRecord;
 	getReactHooksPluginRules: () => Linter.RulesRecord;
 	getReactCompilerPluginRules: (
 		mode?: boolean | 'warn'
@@ -144,7 +137,6 @@ export {
 	type NodeConfigOptions,
 	type ReactConfigOptions,
 	type Rules,
-	type TypescriptConfigOptions,
 	defineZenoConfig,
 };
 export default internals;

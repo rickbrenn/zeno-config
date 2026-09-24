@@ -271,7 +271,7 @@ export default [
 	...configs.getBase(),
 	...configs.getNode({ includes: ['src/server'] }),
 	...configs.getReact({ includes: ['src'] }),
-	...configs.getTypescript({ react: true }),
+	...configs.getTypescript(),
 	// Your custom configs
 ];
 ```
@@ -285,7 +285,7 @@ const { rules } = zenoInternals;
 
 // Use individual rule sets
 const baseRules = rules.getBaseRules();
-const reactRules = rules.getReactPluginRules({ extensions: ['.jsx', '.tsx'] });
+const reactRules = rules.getReactPluginRules();
 ```
 
 ## Defaults
@@ -319,8 +319,8 @@ See the TypeScript configuration files:
 - `eslint-plugin-unicorn` - Additional JavaScript best practices ([rules](src/eslint/rules/unicornPluginRules.js))
 - `eslint-plugin-n` - Node.js specific rules ([rules](src/eslint/rules/nodePluginRules.js))
 - `eslint-plugin-prettier` - Prettier integration
-- `eslint-plugin-react` (optional) - React specific rules ([rules](src/eslint/rules/reactPluginRules.js))
+- `@eslint-react/eslint-plugin` (optional) - React specific rules ([rules](src/eslint/rules/eslintReactPluginRules.js))
 - `eslint-plugin-react-hooks` (optional) - React Hooks rules ([rules](src/eslint/rules/reactHooksPluginRules.js)) and React Compiler rules ([rules](src/eslint/rules/reactCompilerPluginRules.js))
-- `eslint-plugin-jsx-a11y` (optional) - Accessibility rules for JSX ([rules](src/eslint/rules/jsxA11yPluginRules.js))
+- `eslint-plugin-jsx-a11y-x` (optional) - Accessibility rules for JSX ([rules](src/eslint/rules/jsxA11yPluginRules.js))
 - `eslint-plugin-react-you-might-not-need-an-effect` (optional) - React Effect optimization ([rules](src/eslint/rules/reactYouMightNotNeedAnEffectPluginRules.js))
 - `typescript-eslint` (optional) - TypeScript rules ([rules](src/eslint/rules/typescriptPluginRules.js))

@@ -157,6 +157,10 @@ const getTypescriptPluginRules = () => {
 		// requires type information
 		'@typescript-eslint/no-for-in-array': 'off',
 
+		// https://typescript-eslint.io/rules/no-generated-empty-object-type
+		// requires type information
+		'@typescript-eslint/no-generated-empty-object-type': 'off',
+
 		// https://typescript-eslint.io/rules/no-implied-eval
 		// requires type information
 		// 'no-implied-eval': 'off',
@@ -176,8 +180,8 @@ const getTypescriptPluginRules = () => {
 		'@typescript-eslint/no-invalid-void-type': 'error',
 
 		// https://typescript-eslint.io/rules/no-loop-func
-		'no-loop-func': 'off',
-		'@typescript-eslint/no-loop-func': 'error',
+		// 'no-loop-func': 'off',
+		'@typescript-eslint/no-loop-func': 'off', // deprecated, base rule handles this
 
 		// https://typescript-eslint.io/rules/no-loss-of-precision
 		// 'no-loss-of-precision': 'off',
@@ -231,7 +235,7 @@ const getTypescriptPluginRules = () => {
 
 		// https://typescript-eslint.io/rules/no-restricted-imports
 		// 'no-restricted-imports': 'off',
-		'@typescript-eslint/no-restricted-imports': 'off',
+		'@typescript-eslint/no-restricted-imports': 'off', // deprecated, base rule handles this
 
 		// https://typescript-eslint.io/rules/no-restricted-types
 		'@typescript-eslint/no-restricted-types': 'off',

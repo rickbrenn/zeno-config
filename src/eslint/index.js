@@ -1,7 +1,4 @@
-import { readFileSync } from 'node:fs';
-import { createRequire } from 'node:module';
 import { defineConfig } from 'eslint/config';
-import { fixupConfigRules } from '@eslint/compat';
 import js from '@eslint/js';
 import globals from 'globals';
 import importX from 'eslint-plugin-import-x';
@@ -9,15 +6,15 @@ import prettierPlugin from 'eslint-plugin-prettier/recommended';
 import stylisticPlugin from '@stylistic/eslint-plugin';
 import nodePlugin from 'eslint-plugin-n';
 import unicornPlugin from 'eslint-plugin-unicorn';
-import reactPlugin from 'eslint-plugin-react';
+import eslintReactPlugin from '@eslint-react/eslint-plugin';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
-import jsxA11yPlugin from 'eslint-plugin-jsx-a11y';
+import jsxA11yXPlugin from 'eslint-plugin-jsx-a11y-x';
 import reactRefreshPlugin from 'eslint-plugin-react-refresh';
 import reactYouMightNotNeedAnEffectPlugin from 'eslint-plugin-react-you-might-not-need-an-effect';
 import typescriptEslint from 'typescript-eslint';
 import getBaseRules from './rules/baseRules.js';
 import getImportPluginRules from './rules/importPluginRules.js';
-import getReactPluginRules from './rules/reactPluginRules.js';
+import getReactPluginRules from './rules/eslintReactPluginRules.js';
 import getReactHooksPluginRules from './rules/reactHooksPluginRules.js';
 import getReactCompilerPluginRules from './rules/reactCompilerPluginRules.js';
 import getStylisticPluginRules from './rules/stylisticPluginRules.js';
@@ -50,24 +47,6 @@ const defaultIgnoreDirs = [
 	'**/build/*',
 	'**/coverage/*',
 ];
-
-// eslint-plugin-react@7's `version: 'detect'` path relies on `context.getFilename()`,
-// which ESLint 10 removed, causing a crash. Detect the consumer's installed React
-// version ourselves (from their cwd) and pass it explicitly so version-gated rules
-// still behave correctly. Fall back to the plugin's "assume latest" sentinel.
-const detectReactVersion = () => {
-	try {
-		const require = createRequire(import.meta.url);
-		const pkgPath = require.resolve('react/package.json', {
-			paths: [process.cwd()],
-		});
-		return JSON.parse(readFileSync(pkgPath, 'utf8')).version;
-	} catch {
-		return '999.999.999';
-	}
-};
-
-const detectedReactVersion = detectReactVersion();
 
 const isFile = (entry) => /\.\w+$/.test(entry);
 
@@ -191,14 +170,11 @@ const nodeConfig = (options = {}) => {
  */
 const reactConfig = (options = {}) => {
 	let files;
-	let extensions;
 
 	if (options.includes?.length > 0) {
 		files = buildFilePatterns(options.includes, allExtensionsString);
-		extensions = reactExtensionsExtended;
 	} else {
 		files = [`**/*{${reactExtensionsString}}`];
-		extensions = reactExtensions;
 	}
 
 	return [
@@ -215,16 +191,10 @@ const reactConfig = (options = {}) => {
 					},
 				},
 			},
-			settings: {
-				react: {
-					version: detectedReactVersion,
-				},
-			},
 			rules: {
-				...getReactPluginRules({ extensions }),
+				...getReactPluginRules(),
 				...getReactHooksPluginRules(),
-				...(options.reactCompiler &&
-					getReactCompilerPluginRules(options.reactCompiler)),
+				...getReactCompilerPluginRules(options.reactCompiler),
 				...getReactRefreshPluginRules(),
 				...getReactYouMightNotNeedAnEffectPluginRules(),
 				...getJsxA11yPluginRules(),
@@ -243,15 +213,11 @@ const reactConfig = (options = {}) => {
 			},
 			extends: [
 				// if a new rule is added it'll use the recommended setting until it's added to the rules files
-				// eslint-plugin-react and eslint-plugin-jsx-a11y still use ESLint context
-				// methods removed in v10 (getFilename/getSourceCode), so wrap them with
-				// @eslint/compat's fixupConfigRules to shim those APIs under ESLint 10.
-				...fixupConfigRules(reactPlugin.configs.flat.recommended),
-				...fixupConfigRules(reactPlugin.configs.flat['jsx-runtime']),
+				eslintReactPlugin.configs.recommended,
 				reactHooksPlugin.configs.flat.recommended,
 				reactRefreshPlugin.configs.recommended,
 				reactYouMightNotNeedAnEffectPlugin.configs.recommended,
-				...fixupConfigRules(jsxA11yPlugin.flatConfigs.recommended),
+				jsxA11yXPlugin.configs.recommended,
 			],
 		},
 	];
@@ -259,11 +225,9 @@ const reactConfig = (options = {}) => {
 
 /**
  * Creates the TypeScript-specific ESLint configuration.
- * @param {Object} [options={}] - Configuration options.
- * @param {boolean} [options.react=false] - Enable React-specific rules.
  * @returns {Array} ESLint flat config array.
  */
-const typescriptConfig = (options = {}) => {
+const typescriptConfig = () => {
 	return [
 		{
 			name: 'zeno/typescript',
@@ -278,7 +242,7 @@ const typescriptConfig = (options = {}) => {
 				'@typescript-eslint': typescriptEslint.plugin,
 			},
 			rules: {
-				...getTypescriptPluginRules({ react: options.react }),
+				...getTypescriptPluginRules(),
 
 				// Rules handled by the TypeScript compiler
 				'constructor-super': 'off',
@@ -299,13 +263,6 @@ const typescriptConfig = (options = {}) => {
 				'valid-typeof': 'off',
 
 				'import-x/named': 'off',
-
-				...(options.react && {
-					'react/default-props-match-prop-types': 'off',
-					'react/prop-types': 'off',
-					'react/forbid-foreign-prop-types': 'off',
-					'react/forbid-prop-types': 'off',
-				}),
 			},
 		},
 	];
@@ -450,9 +407,7 @@ const defineZenoConfig = (arg1, arg2) => {
 				reactCompiler: options.reactCompiler,
 			})
 		: [];
-	const tsConfigResult = options.ts
-		? configs.getTypescript({ react: isReact })
-		: [];
+	const tsConfigResult = options.ts ? configs.getTypescript() : [];
 
 	return defineConfig([
 		{ ignores: [...defaultIgnoreDirs, ...options.ignores] },
