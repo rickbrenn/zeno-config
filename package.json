@@ -23,7 +23,7 @@
 		"url": "https://github.com/rickbrenn/zeno-config/issues"
 	},
 	"type": "module",
-	"packageManager": "pnpm@11.9.0",
+	"packageManager": "pnpm@12.6.0",
 	"engines": {
 		"node": ">=22"
 	},
