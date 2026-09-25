@@ -46,7 +46,8 @@
 		"./extensions": {
 			"types": "./src/extensions.d.ts",
 			"default": "./src/extensions.js"
-		}
+		},
+		"./package.json": "./package.json"
 	},
 	"bin": {
 		"zc-gitignore": "./bin/gitignore.js"

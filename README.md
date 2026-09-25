@@ -114,6 +114,18 @@ export default defineZenoConfig(
 
 		// Webpack config path for import resolution
 		webpackConfig: './webpack.config.js',
+
+		// Extra options for the import resolver (e.g. custom `exports` conditions)
+		resolverOptions: {
+			conditionNames: [
+				'my-source',
+				'import',
+				'require',
+				'node',
+				'default',
+				'types',
+			],
+		},
 	},
 	[
 		// Your custom config objects
@@ -255,8 +267,46 @@ import {
 | `additionalDevDependencies` | `string[]`          | `[]`        | Additional file patterns to allow dev dependencies in (for import/no-extraneous-dependencies)                                                                                                                            |
 | `extensionsIgnorePattern`   | `object`            | `{}`        | Extension patterns to ignore for import/extensions rule                                                                                                                                                                  |
 | `webpackConfig`             | `string`            | `undefined` | Path to a webpack config whose `resolve.alias`, `resolve.modules`, and `resolve.extensions` are applied to import resolution                                                                                             |
+| `resolverOptions`           | `object`            | `{}`        | Extra options forwarded to the import resolver, e.g. `conditionNames`, `mainFields`, `alias`, `project`, `alwaysTryTypes`. See [Custom import resolution](#custom-import-resolution)                                     |
 
 ## Advanced Usage
+
+### Custom import resolution
+
+Import rules resolve modules via `settings['import-x/resolver-next']`, set to [`eslint-import-resolver-typescript`](https://github.com/import-js/eslint-import-resolver-typescript) when `ts: true` or import-x's node resolver otherwise. Both accept [`unrs-resolver`](https://github.com/unrs/unrs-resolver) options, which you can pass with `resolverOptions`:
+
+```javascript
+export default defineZenoConfig({
+	ts: true,
+	resolverOptions: {
+		// Replaces the default list, so include the standard conditions too.
+		// (tsconfig `customConditions` is not read by unrs-resolver.)
+		conditionNames: ['my-source', 'import', 'require', 'default', 'types'],
+		// Default: nearest tsconfig.json/jsconfig.json
+		project: ['./tsconfig.json', './packages/*/tsconfig.json'],
+	},
+});
+```
+
+Flat config replaces array settings, so to add your own resolver build zeno's list with `getImportResolvers` (also available as `internals.getImportResolvers`):
+
+```javascript
+import { defineZenoConfig, getImportResolvers } from 'zeno-config/eslint';
+
+export default defineZenoConfig({ ts: true }, [
+	{
+		settings: {
+			'import-x/resolver-next': [
+				...getImportResolvers({
+					ts: true,
+					webpackConfig: './webpack.config.js',
+				}),
+				myCustomResolver,
+			],
+		},
+	},
+]);
+```
 
 ### Using Internal Configs Directly
 

@@ -1,3 +1,5 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import { defineConfig } from 'eslint/config';
 import js from '@eslint/js';
 import globals from 'globals';
@@ -49,7 +51,14 @@ const defaultIgnoreDirs = [
 	'**/coverage/*',
 ];
 
-const isFile = (entry) => /\.\w+$/.test(entry);
+const isFile = (entry) => {
+	try {
+		return fs.statSync(path.resolve(entry)).isFile();
+	} catch {
+		// path doesn't exist (yet) or is a glob; fall back to the extension heuristic
+		return path.posix.extname(entry).length > 1;
+	}
+};
 
 const buildFilePatterns = (includes, extensionsString) => {
 	return includes.flatMap((entry) => {
@@ -68,6 +77,7 @@ const buildFilePatterns = (includes, extensionsString) => {
  * @param {string[]} [options.additionalDevDependencies] - Additional file patterns to allow dev dependencies in (for no-extraneous-dependencies rule).
  * @param {Object} [options.extensionsIgnorePattern] - Extension patterns to ignore for import rules.
  * @param {string} [options.webpackConfig] - Path to a webpack config whose `resolve.alias`, `resolve.modules`, and `resolve.extensions` are applied to import resolution.
+ * @param {Object} [options.resolverOptions] - Extra options forwarded to the import resolver.
  * @param {boolean} [options.ts=false] - Enable TypeScript import resolution.
  * @param {boolean} [options.performanceMode=false] - Disables expensive rules for performance.
  * @returns {Array} ESLint flat config array.
@@ -88,6 +98,7 @@ const baseConfig = (options = {}) => {
 				'import-x/resolver-next': getImportResolvers({
 					ts: options.ts,
 					webpackConfig: options.webpackConfig,
+					resolverOptions: options.resolverOptions,
 				}),
 			},
 			plugins: {
@@ -275,6 +286,7 @@ const configs = {
 
 const internals = {
 	configs,
+	getImportResolvers,
 	extensions: {
 		allExtensions,
 		allExtensionsString,
@@ -318,7 +330,8 @@ const internals = {
  * @param {string[]} [arg1.ignoreExports=[]] - Export patterns to ignore for import rules.
  * @param {string[]} [arg1.additionalDevDependencies=[]] - Additional file patterns to allow dev dependencies in (for no-extraneous-dependencies rule).
  * @param {Object} [arg1.extensionsIgnorePattern={}] - Extension patterns to ignore for import rules.
- * @param {string} [arg1.webpackConfig] - Path to webpack config for import resolver.
+ * @param {string} [arg1.webpackConfig] - Path to a webpack config whose `resolve.alias`, `resolve.modules`, and `resolve.extensions` are applied to import resolution.
+ * @param {Object} [arg1.resolverOptions={}] - Extra options forwarded to the import resolver.
  * @param {Array} [arg2] - Additional ESLint config objects to merge (only used if arg1 is options object).
  * @returns {Array} ESLint flat config array.
  *
@@ -349,6 +362,7 @@ const defineZenoConfig = (arg1, arg2) => {
 		additionalDevDependencies: [],
 		extensionsIgnorePattern: {},
 		webpackConfig: undefined,
+		resolverOptions: {},
 	};
 	let config;
 
@@ -377,9 +391,17 @@ const defineZenoConfig = (arg1, arg2) => {
 	}
 	if (
 		typeof options.extensionsIgnorePattern !== 'object' ||
-		options.extensionsIgnorePattern === null
+		options.extensionsIgnorePattern === null ||
+		Array.isArray(options.extensionsIgnorePattern)
 	) {
 		options.extensionsIgnorePattern = {};
+	}
+	if (
+		typeof options.resolverOptions !== 'object' ||
+		options.resolverOptions === null ||
+		Array.isArray(options.resolverOptions)
+	) {
+		options.resolverOptions = {};
 	}
 
 	const isReact = options.reactIncludes.length > 0;
@@ -413,6 +435,7 @@ const defineZenoConfig = (arg1, arg2) => {
 			ignoreExports: options.ignoreExports,
 			additionalDevDependencies: options.additionalDevDependencies,
 			webpackConfig: options.webpackConfig,
+			resolverOptions: options.resolverOptions,
 			ts: options.ts,
 			extensionsIgnorePattern: options.extensionsIgnorePattern,
 			performanceMode: options.performanceMode,
@@ -437,4 +460,4 @@ const defineZenoConfig = (arg1, arg2) => {
 };
 
 export default internals;
-export { defineZenoConfig };
+export { defineZenoConfig, getImportResolvers };
