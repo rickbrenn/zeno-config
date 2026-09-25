@@ -7,7 +7,7 @@ interface BaseConfigOptions {
 	additionalDevDependencies?: string[];
 	/** Extension patterns to ignore for import rules */
 	extensionsIgnorePattern?: Record<string, string>;
-	/** Path to webpack config for import resolver */
+	/** Path to a webpack config whose `resolve.alias`, `resolve.modules`, and `resolve.extensions` are applied to import resolution */
 	webpackConfig?: string;
 	/** Enable TypeScript import resolution */
 	ts?: boolean;
@@ -50,7 +50,7 @@ interface DefineZenoConfigOptions {
 	additionalDevDependencies?: string[];
 	/** Extension patterns to ignore for import rules */
 	extensionsIgnorePattern?: Record<string, string>;
-	/** Path to webpack config for import resolver */
+	/** Path to a webpack config whose `resolve.alias`, `resolve.modules`, and `resolve.extensions` are applied to import resolution */
 	webpackConfig?: string;
 }
 
@@ -92,6 +92,7 @@ interface Rules {
 	getReactCompilerPluginRules: (
 		mode?: boolean | 'warn'
 	) => Linter.RulesRecord;
+	getReactRefreshPluginRules: () => Linter.RulesRecord;
 	getReactYouMightNotNeedAnEffectPluginRules: () => Linter.RulesRecord;
 	getJsxA11yPluginRules: () => Linter.RulesRecord;
 }

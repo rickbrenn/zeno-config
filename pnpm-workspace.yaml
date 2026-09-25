@@ -1,8 +1,2 @@
 allowBuilds:
   unrs-resolver: true
-
-# eslint-plugin-import is an optional transitive peer of the import resolvers; we
-# use eslint-plugin-import-x instead, so its v9 eslint cap is irrelevant here.
-peerDependencyRules:
-  allowedVersions:
-    'eslint-plugin-import>eslint': '10'

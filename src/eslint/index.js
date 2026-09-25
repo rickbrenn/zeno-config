@@ -24,6 +24,7 @@ import getReactYouMightNotNeedAnEffectPluginRules from './rules/reactYouMightNot
 import getJsxA11yPluginRules from './rules/jsxA11yPluginRules.js';
 import getUnicornPluginRules from './rules/unicornPluginRules.js';
 import getTypescriptPluginRules from './rules/typescriptPluginRules.js';
+import getImportResolvers from './importResolvers.js';
 import {
 	allExtensions,
 	allExtensionsString,
@@ -66,7 +67,7 @@ const buildFilePatterns = (includes, extensionsString) => {
  * @param {string[]} [options.ignoreExports] - Export patterns to ignore for import rules.
  * @param {string[]} [options.additionalDevDependencies] - Additional file patterns to allow dev dependencies in (for no-extraneous-dependencies rule).
  * @param {Object} [options.extensionsIgnorePattern] - Extension patterns to ignore for import rules.
- * @param {string} [options.webpackConfig] - Path to webpack config for import resolver.
+ * @param {string} [options.webpackConfig] - Path to a webpack config whose `resolve.alias`, `resolve.modules`, and `resolve.extensions` are applied to import resolution.
  * @param {boolean} [options.ts=false] - Enable TypeScript import resolution.
  * @param {boolean} [options.performanceMode=false] - Disables expensive rules for performance.
  * @returns {Array} ESLint flat config array.
@@ -84,13 +85,10 @@ const baseConfig = (options = {}) => {
 				},
 			},
 			settings: {
-				'import-x/resolver': {
-					node: { extensions: allExtensions },
-					...(options.ts && { typescript: true }),
-					...(options.webpackConfig && {
-						webpack: { config: options.webpackConfig },
-					}),
-				},
+				'import-x/resolver-next': getImportResolvers({
+					ts: options.ts,
+					webpackConfig: options.webpackConfig,
+				}),
 			},
 			plugins: {
 				'import-x': importX,
@@ -315,7 +313,7 @@ const internals = {
  * @param {boolean|string} [arg1.reactCompiler=false] - Enable React Compiler rules. Set to true to enforce as errors, or 'warn' for warnings (recommended when preparing a codebase for React Compiler adoption).
  * @param {boolean} [arg1.ts=false] - Enable TypeScript-specific rules.
  * @param {boolean} [arg1.performanceMode=false] - Disables expensive rules for performance.
- * @param {string[]} [arg1.ignores=[]] - Additional directories to ignore (added to defaults: dist, build).
+ * @param {string[]} [arg1.ignores=[]] - Additional directories to ignore (added to defaults: node_modules, dist, build, coverage).
  * @param {string[]} [arg1.nodeIncludes=[]] - Directories and files containing Node.js code. When set, Node-specific rules only apply to these paths.
  * @param {string[]} [arg1.ignoreExports=[]] - Export patterns to ignore for import rules.
  * @param {string[]} [arg1.additionalDevDependencies=[]] - Additional file patterns to allow dev dependencies in (for no-extraneous-dependencies rule).

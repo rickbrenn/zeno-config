@@ -26,7 +26,7 @@ Install the package and its peer dependencies:
 pnpm add -D zeno-config eslint prettier
 
 # For TypeScript projects, also install:
-pnpm add -D typescript
+pnpm add -D typescript @types/node
 ```
 
 All ESLint plugins are bundled with zeno-config, so you don't need to install them separately.
@@ -243,18 +243,18 @@ import {
 
 ### `defineZenoConfig(options, additionalESLintConfig)`
 
-| Option                      | Type                    | Default     | Description                                                                                                           |
-| --------------------------- | ----------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------- |
-| `reactIncludes`             | `string[]`              | `[]`        | Directories and files containing React code. Setting this enables all React rules (hooks, JSX, a11y, etc.) for all file types in these paths. |
-| `reactCompiler`             | `boolean \| 'warn'`     | `false`     | Enable React Compiler rules. Set to `true` to enforce as errors, or `'warn'` to surface violations as warnings (recommended when preparing a codebase for React Compiler adoption). |
-| `ts`                        | `boolean`               | `false`     | Enable TypeScript-specific rules                                                                                      |
-| `performanceMode`           | `boolean`               | `false`     | Disables expensive rules for better performance                                                                       |
-| `ignores`                   | `string[]`              | `[]`        | Additional directories to ignore (added to defaults: node_modules, dist, build, coverage)                             |
-| `nodeIncludes`              | `string[]`              | `[]`        | Directories and files containing Node.js code. When set, Node-specific rules only apply to these paths. When not set but `reactIncludes` is set, `reactIncludes` directories are automatically excluded from Node rules. |
-| `ignoreExports`             | `string[]`              | `[]`        | Export patterns to ignore for import/no-unresolved rule                                                               |
-| `additionalDevDependencies` | `string[]`              | `[]`        | Additional file patterns to allow dev dependencies in (for import/no-extraneous-dependencies)                         |
-| `extensionsIgnorePattern`   | `object`                | `{}`        | Extension patterns to ignore for import/extensions rule                                                               |
-| `webpackConfig`             | `string`                | `undefined` | Path to webpack config for import resolver                                                                            |
+| Option                      | Type                | Default     | Description                                                                                                                                                                                                              |
+| --------------------------- | ------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `reactIncludes`             | `string[]`          | `[]`        | Directories and files containing React code. Setting this enables all React rules (hooks, JSX, a11y, etc.) for all file types in these paths.                                                                            |
+| `reactCompiler`             | `boolean \| 'warn'` | `false`     | Enable React Compiler rules. Set to `true` to enforce as errors, or `'warn'` to surface violations as warnings (recommended when preparing a codebase for React Compiler adoption).                                      |
+| `ts`                        | `boolean`           | `false`     | Enable TypeScript-specific rules                                                                                                                                                                                         |
+| `performanceMode`           | `boolean`           | `false`     | Disables expensive rules for better performance                                                                                                                                                                          |
+| `ignores`                   | `string[]`          | `[]`        | Additional directories to ignore (added to defaults: node_modules, dist, build, coverage)                                                                                                                                |
+| `nodeIncludes`              | `string[]`          | `[]`        | Directories and files containing Node.js code. When set, Node-specific rules only apply to these paths. When not set but `reactIncludes` is set, `reactIncludes` directories are automatically excluded from Node rules. |
+| `ignoreExports`             | `string[]`          | `[]`        | Export patterns to ignore for import/no-unresolved rule                                                                                                                                                                  |
+| `additionalDevDependencies` | `string[]`          | `[]`        | Additional file patterns to allow dev dependencies in (for import/no-extraneous-dependencies)                                                                                                                            |
+| `extensionsIgnorePattern`   | `object`            | `{}`        | Extension patterns to ignore for import/extensions rule                                                                                                                                                                  |
+| `webpackConfig`             | `string`            | `undefined` | Path to a webpack config whose `resolve.alias`, `resolve.modules`, and `resolve.extensions` are applied to import resolution                                                                                             |
 
 ## Advanced Usage
 
@@ -321,6 +321,7 @@ See the TypeScript configuration files:
 - `eslint-plugin-prettier` - Prettier integration
 - `@eslint-react/eslint-plugin` (optional) - React specific rules ([rules](src/eslint/rules/eslintReactPluginRules.js))
 - `eslint-plugin-react-hooks` (optional) - React Hooks rules ([rules](src/eslint/rules/reactHooksPluginRules.js)) and React Compiler rules ([rules](src/eslint/rules/reactCompilerPluginRules.js))
+- `eslint-plugin-react-refresh` (optional) - Fast Refresh component export validation ([rules](src/eslint/rules/reactRefreshPluginRules.js))
 - `eslint-plugin-jsx-a11y-x` (optional) - Accessibility rules for JSX ([rules](src/eslint/rules/jsxA11yPluginRules.js))
 - `eslint-plugin-react-you-might-not-need-an-effect` (optional) - React Effect optimization ([rules](src/eslint/rules/reactYouMightNotNeedAnEffectPluginRules.js))
 - `typescript-eslint` (optional) - TypeScript rules ([rules](src/eslint/rules/typescriptPluginRules.js))
